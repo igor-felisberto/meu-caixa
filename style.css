@@ -1,0 +1,1037 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: #08080c;
+    color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  header {
+    text-align: center;
+    padding: 30px 20px;
+    background: #101016;
+    border-bottom: 1px solid #292936;
+  }
+  
+  header h1 {
+    font-size: 32px;
+    color: #a855f7;
+  }
+  
+  header p {
+    color: #999;
+    margin-top: 8px;
+  }
+  
+  main {
+    width: 92%;
+    max-width: 900px;
+    margin: 30px auto;
+  }
+  
+  /* CARDS */
+  
+  .resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .card {
+    background: #121218;
+    padding: 22px;
+    border-radius: 16px;
+    border: 1px solid #292936;
+  }
+  
+  .card h3 {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    font-size: 25px;
+    font-weight: bold;
+  }
+  
+  .entrada {
+    color: #22c55e;
+  }
+  
+  .gasto {
+    color: #ef4444;
+  }
+  
+  /* ===== DESIGN NOVO MEU CAIXA ===== */
+
+.card {
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #8b5cf6;
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
+}
+
+.card h3 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.saldo {
+  color: #a78bfa;
+}
+
+/* ===== NOVA MOVIMENTAÇÃO ===== */
+
+.nova-movimentacao {
+  background: #111118;
+  border: 1px solid #292938;
+  border-radius: 18px;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+.nova-movimentacao h2 {
+  margin-top: 0;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+input,
+select,
+button {
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  font-size: 15px;
+}
+
+input,
+select {
+  background: #181820;
+  color: #ffffff;
+}
+
+button {
+  background: #8b5cf6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+/* ===== HISTÓRICO DE MOVIMENTAÇÕES ===== */
+
+.historico {
+  margin-top: 25px;
+}
+
+.historico h2 {
+  color: #ffffff;
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+#listaMovimentacoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#listaMovimentacoes > div {
+  background: #111118;
+  border: 1px solid #292938;
+  border-radius: 12px;
+  padding: 14px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#listaMovimentacoes button {
+  background: #292938;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+#listaMovimentacoes button:hover {
+  background: #ef4444;
+}
+
+/* ===== CORES ENTRADA E GASTO ===== */
+
+#listaMovimentacoes .entrada {
+  border-left: 4px solid #22c55e;
+}
+
+#listaMovimentacoes .entrada span {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+#listaMovimentacoes .gasto {
+  border-left: 4px solid #ef4444;
+}
+
+#listaMovimentacoes .gasto span {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/* ===== VERSÃO MOBILE ===== */
+
+@media (max-width: 768px) {
+
+  body {
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  main {
+    width: 92%;
+    margin: 0 auto;
+  }
+
+  /* Cards do resumo */
+  .resumo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Nova movimentação */
+  .nova-movimentacao {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+  }
+
+  .nova-movimentacao input,
+  .nova-movimentacao select,
+  .nova-movimentacao button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+
+  /* Histórico */
+  .historico {
+    width: 100%;
+  }
+
+  #listaMovimentacoes > div {
+    width: 100%;
+    box-sizing: border-box;
+    gap: 8px;
+  }
+
+  #listaMovimentacoes strong {
+    flex: 1;
+  }
+
+  #listaMovimentacoes span {
+    white-space: nowrap;
+  }
+
+  #listaMovimentacoes button {
+    flex-shrink: 0;
+  }
+}
+
+/* ===== FILTROS DE PERÍODO ===== */
+
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.filtro {
+  padding: 12px 8px;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: #171720;
+  color: #aaa;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filtro:hover {
+  border-color: #777;
+  color: #fff;
+}
+
+.filtro.ativo {
+  background: linear-gradient(135deg, #6c63ff, #9b6dff);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ===== NOVO DESIGN - MEU CAIXA ===== */
+
+body {
+  background: #09090b;
+  color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ===== RESUMO POR CATEGORIA ===== */
+
+.resumo-categorias {
+  background: linear-gradient(135deg, #171720, #20202d);
+  border: 1px solid #6c63ff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 22px 0;
+  box-shadow: 0 8px 25px rgba(108, 99, 255, 0.15);
+}
+
+.resumo-categorias h2 {
+  margin: 0 0 15px;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.resumo-categorias p {
+  margin: 8px 0;
+  padding: 10px 12px;
+  background: #111118;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ===== NOVA MOVIMENTAÇÃO ===== */
+
+.formulario,
+.nova-movimentacao {
+  background: linear-gradient(135deg, #171720, #20202d);
+  border: 1px solid #343445;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.formulario h2,
+.nova-movimentacao h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.formulario input,
+.formulario select,
+.nova-movimentacao input,
+.nova-movimentacao select {
+  background: #111118;
+  color: #fff;
+  border: 1px solid #44445a;
+  border-radius: 10px;
+  padding: 13px;
+  outline: none;
+}
+
+.formulario input:focus,
+.formulario select:focus,
+.nova-movimentacao input:focus,
+.nova-movimentacao select:focus {
+  border-color: #6c63ff;
+}
+
+.formulario button,
+.nova-movimentacao button {
+  background: linear-gradient(135deg, #6c63ff, #9b6dff);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ===== MOVIMENTAÇÕES ===== */
+
+.entrada,
+.gasto {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.entrada:hover,
+.gasto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.btn-excluir {
+  background: #252532;
+  color: #bbb;
+  border: 1px solid #3b3b4b;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-excluir:hover {
+  background: #ff4d6d;
+  border-color: #ff4d6d;
+  color: #fff;
+}
+
+.resumo-categorias {
+  background: linear-gradient(145deg, #34345a, #121218) !important;
+  border: 2px solid #8b6cff !important;
+  border-radius: 20px !important;
+
+  box-shadow:
+      0 18px 35px rgba(0, 0, 0, 0.8),
+      0 0 30px rgba(139, 108, 255, 0.55),
+      inset 0 2px 3px rgba(255, 255, 255, 0.15) !important;
+
+  transform: perspective(800px) rotateX(2deg);
+  transition: 0.3s ease !important;
+}
+
+.resumo-categorias:hover {
+  transform: perspective(800px) rotateX(0deg) translateY(-8px) scale(1.02) !important;
+
+  box-shadow:
+      0 25px 45px rgba(0, 0, 0, 0.9),
+      0 0 40px rgba(139, 108, 255, 0.8) !important;
+}
+
+/* 3D - CARD SALDO ATUAL */
+.card:first-child {
+  background: linear-gradient(145deg, #30304a, #181820);
+
+  border: 1px solid rgba(139, 108, 255, 0.7);
+
+  box-shadow:
+      0 12px 25px rgba(0, 0, 0, 0.55),
+      0 0 18px rgba(139, 108, 255, 0.25),
+      inset 0 1px 2px rgba(255, 255, 255, 0.10);
+
+  transform: perspective(700px) translateZ(0);
+  transition: 0.3s ease;
+}
+
+.card:first-child:hover {
+  transform: perspective(700px) translateY(-7px) scale(1.02);
+
+  box-shadow:
+      0 20px 35px rgba(0, 0, 0, 0.7),
+      0 0 28px rgba(139, 108, 255, 0.5);
+}
+
+/* ENTRADAS - VERDE */
+.card:nth-child(2) {
+  border: 1px solid rgba(46, 204, 113, 0.8);
+  box-shadow:
+      0 12px 25px rgba(0, 0, 0, 0.55),
+      0 0 18px rgba(46, 204, 113, 0.25);
+  transition: 0.3s ease;
+}
+
+.card:nth-child(2):hover {
+  transform: translateY(-7px) scale(1.02);
+  box-shadow:
+      0 20px 35px rgba(0, 0, 0, 0.7),
+      0 0 30px rgba(46, 204, 113, 0.55);
+}
+
+
+/* GASTOS - VERMELHO */
+.card:nth-child(3) {
+  border: 1px solid rgba(255, 70, 70, 0.8);
+  box-shadow:
+      0 12px 25px rgba(0, 0, 0, 0.55),
+      0 0 18px rgba(255, 70, 70, 0.25);
+  transition: 0.3s ease;
+}
+
+.card:nth-child(3):hover {
+  transform: translateY(-7px) scale(1.02);
+  box-shadow:
+      0 20px 35px rgba(0, 0, 0, 0.7),
+      0 0 30px rgba(255, 70, 70, 0.55);
+}
+
+/* LOGO MEU CAIXA - PREMIUM */
+header h1 {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  font-style: italic;
+
+  letter-spacing: 6px;
+  text-transform: uppercase;
+
+  color: #f5f3ff;
+
+  -webkit-text-stroke: 1px #7657ff;
+
+  text-shadow:
+      2px 3px 0 #15151d,
+      4px 5px 0 #32256b,
+      0 0 10px rgba(118, 87, 255, 0.45),
+      0 0 22px rgba(118, 87, 255, 0.20);
+
+  transform: skewX(-5deg);
+}
+
+/* NOVA MOVIMENTAÇÃO - EFEITO 3D */
+.nova-movimentacao {
+  background: linear-gradient(145deg, #292940, #171720);
+  border: 1px solid rgba(124, 92, 255, 0.65);
+  border-radius: 20px;
+
+  box-shadow:
+      0 15px 30px rgba(0, 0, 0, 0.55),
+      0 0 20px rgba(124, 92, 255, 0.18),
+      inset 0 1px 2px rgba(255, 255, 255, 0.08);
+
+  transition: 0.3s ease;
+}
+
+.nova-movimentacao:hover {
+  border-color: #8b6cff;
+
+  box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.65),
+      0 0 28px rgba(124, 92, 255, 0.35);
+}
+
+/* CAMPOS - NOVA MOVIMENTAÇÃO */
+.nova-movimentacao input,
+.nova-movimentacao select {
+    background: #191923;
+    color: #ffffff;
+
+    border: 1px solid #6255a5;
+    border-radius: 12px;
+
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.45),
+        0 4px 10px rgba(0, 0, 0, 0.25);
+
+    transition: 0.25s ease;
+}
+
+/* QUANDO CLICAR NO CAMPO */
+.nova-movimentacao input:focus,
+.nova-movimentacao select:focus {
+    outline: none;
+    border-color: #8b6cff;
+
+    box-shadow:
+        0 0 0 2px rgba(139, 108, 255, 0.15),
+        0 0 15px rgba(139, 108, 255, 0.35);
+}
+
+/* BOTÃO ADICIONAR */
+.nova-movimentacao button {
+    background: linear-gradient(135deg, #7657ff, #4c35b5);
+    color: white;
+
+    border: none;
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 7px 15px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(118, 87, 255, 0.3);
+
+    transition: 0.25s ease;
+}
+
+.nova-movimentacao button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 11px 20px rgba(0, 0, 0, 0.5),
+        0 0 22px rgba(118, 87, 255, 0.55);
+}
+
+/* MOVIMENTAÇÕES - EFEITO 3D */
+#listaMovimentacoes > div {
+  background: linear-gradient(145deg, #292938, #191920);
+  border-radius: 14px;
+
+  box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.45),
+      inset 0 1px 1px rgba(255, 255, 255, 0.06);
+
+  transition: 0.25s ease;
+}
+
+#listaMovimentacoes > div:hover {
+  transform: translateY(-4px) scale(1.005);
+}
+
+
+/* ENTRADA - VERDE */
+#listaMovimentacoes .entrada {
+  border-left: 5px solid #42d69b;
+
+  box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.45),
+      0 0 12px rgba(66, 214, 155, 0.12);
+}
+
+#listaMovimentacoes .entrada:hover {
+  box-shadow:
+      0 14px 25px rgba(0, 0, 0, 0.55),
+      0 0 20px rgba(66, 214, 155, 0.28);
+}
+
+
+/* GASTO - VERMELHO */
+#listaMovimentacoes .gasto {
+  border-left: 5px solid #ff6b7a;
+
+  box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.45),
+      0 0 12px rgba(255, 107, 122, 0.12);
+}
+
+#listaMovimentacoes .gasto:hover {
+  box-shadow:
+      0 14px 25px rgba(0, 0, 0, 0.55),
+      0 0 20px rgba(255, 107, 122, 0.28);
+}
+
+
+/* BOTÃO EXCLUIR */
+.btn-excluir {
+  background: #292936;
+  color: #ffffff;
+  border: 1px solid #45455a;
+  border-radius: 9px;
+
+  transition: 0.25s ease;
+}
+
+.btn-excluir:hover {
+  background: #ff4658;
+  border-color: #ff4658;
+
+  box-shadow:
+      0 0 15px rgba(255, 70, 88, 0.55);
+
+  transform: scale(1.06);
+}
+
+.nova-movimentacao button {
+  background: linear-gradient(135deg, #7b61ff, #5036c9);
+  color: #fff;
+  border: 1px solid #927cff;
+  border-radius: 12px;
+  font-weight: 800;
+
+  box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.45),
+      0 0 18px rgba(123, 97, 255, 0.35);
+
+  transition: 0.25s ease;
+}
+
+.nova-movimentacao button:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: linear-gradient(135deg, #927cff, #6547e8);
+
+  box-shadow:
+      0 12px 25px rgba(0, 0, 0, 0.55),
+      0 0 25px rgba(123, 97, 255, 0.60);
+}
+
+/* ===== FECHAMENTO DO MÊS ===== */
+
+.fechamento-mes {
+  display: flex;
+  justify-content: flex-end;
+  margin: 18px 0 25px;
+}
+
+#btnFecharMes {
+  background: linear-gradient(135deg, #6d28d9, #9333ea);
+  color: white;
+  border: 1px solid #a855f7;
+  border-radius: 12px;
+  padding: 13px 22px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.35);
+  transition: 0.25s;
+}
+
+#btnFecharMes:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(147, 51, 234, 0.65);
+}
+
+/* ===== HISTÓRICO MENSAL ===== */
+
+.historico-mensal {
+  margin: 20px 0 30px;
+  padding: 20px;
+  background: rgba(20, 20, 35, 0.75);
+  border: 1px solid #7c3aed;
+  border-radius: 18px;
+  box-shadow: 0 0 18px rgba(124, 58, 237, 0.20);
+}
+
+.historico-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.historico-topo h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+#btnHistorico {
+  background: transparent;
+  color: #c4b5fd;
+  border: 1px solid #8b5cf6;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+#btnHistorico:hover {
+  background: #7c3aed;
+  color: white;
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.55);
+}
+
+.lista-historico {
+  display: none;
+  margin-top: 18px;
+}
+
+@media (max-width: 600px) {
+  .historico-topo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #btnHistorico {
+    width: 100%;
+  }
+}
+
+/* ===== CARDS DO HISTÓRICO ===== */
+
+.item-historico {
+  margin-top: 18px;
+}
+
+.mes-historico {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #ffffff;
+}
+
+.valores-historico {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mini-card {
+  padding: 15px 18px;
+  border-radius: 14px;
+  background: rgba(10, 10, 20, 0.65);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mini-card span {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.mini-card strong {
+  font-size: 18px;
+}
+
+.entrada-historico {
+  border: 1px solid #22c55e;
+}
+
+.entrada-historico strong {
+  color: #4ade80;
+}
+
+.gasto-historico {
+  border: 1px solid #ef4444;
+}
+
+.gasto-historico strong {
+  color: #fb7185;
+}
+
+.saldo-historico {
+  border: 1px solid #3b82f6;
+}
+
+.saldo-historico strong {
+  color: #60a5fa;
+}
+
+/* CELULAR */
+@media (max-width: 600px) {
+  .valores-historico {
+    grid-template-columns: 1fr;
+  }
+
+  .mini-card {
+    padding: 13px 15px;
+  }
+}
+
+.saldo-historico.saldo-negativo {
+  border-color: #ef4444;
+}
+
+.saldo-historico.saldo-negativo strong {
+  color: #fb7185;
+}
+
+/* ===== MODAL FECHAMENTO ===== */
+
+.modal-fechamento {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.modal-fechamento.ativo {
+  display: flex;
+}
+
+.modal-caixa {
+  width: 100%;
+  max-width: 520px;
+
+  padding: 28px;
+  border-radius: 22px;
+
+  background: linear-gradient(
+    145deg,
+    #11121c,
+    #19152b
+  );
+
+  border: 1px solid #8b5cf6;
+
+  box-shadow:
+    0 0 35px rgba(124, 58, 237, 0.35);
+
+  text-align: center;
+}
+
+.modal-icone {
+  width: 55px;
+  height: 55px;
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(124, 58, 237, 0.18);
+  border: 1px solid #8b5cf6;
+
+  color: #c4b5fd;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.modal-caixa h2 {
+  margin: 0 0 5px;
+  font-size: 25px;
+}
+
+.modal-subtitulo {
+  margin: 0 0 22px;
+  opacity: 0.7;
+}
+
+.modal-resumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.modal-valor {
+  padding: 14px 10px;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.04);
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.modal-valor span {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.modal-valor strong {
+  font-size: 17px;
+}
+
+.modal-valor.entrada {
+  border: 1px solid #22c55e;
+}
+
+.modal-valor.entrada strong {
+  color: #4ade80;
+}
+
+.modal-valor.gasto {
+  border: 1px solid #ef4444;
+}
+
+.modal-valor.gasto strong {
+  color: #fb7185;
+}
+
+.modal-valor.saldo {
+  border: 1px solid #3b82f6;
+}
+
+.modal-valor.saldo strong {
+  color: #60a5fa;
+}
+
+.modal-botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.modal-botoes button {
+  flex: 1;
+  padding: 13px;
+
+  border-radius: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#cancelarFechamento {
+  background: transparent;
+  color: #ddd;
+  border: 1px solid #555;
+}
+
+#confirmarFechamento {
+  border: 1px solid #a855f7;
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #6d28d9,
+    #9333ea
+  );
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+  .modal-caixa {
+    padding: 22px 16px;
+  }
+
+  .modal-resumo {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-botoes {
+    flex-direction: column;
+  }
+}
+
+/* ===== NOTIFICAÇÃO TOAST ===== */
+.toast {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translate(-50%, -120px);
+
+  background: #11111a;
+  color: white;
+  border: 1px solid #8b5cf6;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.45);
+
+  padding: 16px 25px;
+  border-radius: 14px;
+
+  font-weight: bold;
+  font-size: 16px;
+
+  opacity: 0;
+  z-index: 9999;
+  transition: 0.4s ease;
+}
+
+.toast.ativo {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

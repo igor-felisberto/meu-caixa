@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Meu Caixa</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="icon" href="icons/icon-192.png">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>MEU CAIXA</h1>
+    <p>Controle seu dinheiro de forma simples.</p>
+  </header>
+
+  <main>
+
+    <section class="resumo">
+      <div class="card">
+        <span>Saldo atual</span>
+        <h2 id="saldo">R$ 0,00</h2>
+      </div>
+
+      <div class="card">
+        <span>Entradas</span>
+        <h2 id="totalEntradas">R$ 0,00</h2>
+      </div>
+
+      <div class="card">
+        <span>Gastos</span>
+        <h2 id="totalGastos">R$ 0,00</h2>
+      </div>
+    </section>
+
+    <section class="filtros">
+      <button class="filtro ativo" data-periodo="todos">Todos</button>
+      <button class="filtro" data-periodo="hoje">Hoje</button>
+      <button class="filtro" data-periodo="semana">Semana</button>
+      <button class="filtro" data-periodo="mes">Mês</button>
+    </section>
+
+    <section class="fechamento-mes">
+      <button id="btnFecharMes">Fechar mês</button>
+  </section>
+
+<section class="historico-mensal">
+    <div class="historico-topo">
+        <h2>Histórico mensal</h2>
+        <button id="btnHistorico">Ver histórico</button>
+    </div>
+
+    <div id="listaHistorico" class="lista-historico"></div>
+</section>
+
+    <section class="grafico-financeiro">
+      <h2>Entradas x Gastos</h2>
+    
+      <div class="grafico-container">
+        <canvas id="graficoFinanceiro"></canvas>
+      </div>
+    </section>
+
+    <section class="resumo-categorias">
+      <h2>Resumo por categoria</h2>
+      <div id="listaCategorias">
+        <p>Nenhum gasto por categoria ainda.</p>
+      </div>
+    </section>
+
+    <section class="nova-movimentacao">
+
+      <h2>Nova movimentação</h2>
+
+      <input
+        type="text"
+        id="descricao"
+        placeholder="Ex: Corte de cabelo, mercado, gasolina..."
+      >
+
+      <input
+        type="number"
+        id="valor"
+        placeholder="Valor R$"
+        step="0.01"
+      >
+
+      <select id="tipo">
+        <option value="entrada">Entrada</option>
+        <option value="gasto">Gasto</option>
+      </select>
+
+      <select id="categoria">
+        <option value="alimentacao">🍔 Alimentação</option>
+        <option value="contas">💡 Contas</option>
+        <option value="transporte">🚗 Transporte</option>
+        <option value="barbearia">💈 Barbearia</option>
+        <option value="lazer">🎮 Lazer</option>
+        <option value="compras">🛒 Compras</option>
+        <option value="receita">💰 Salário / Receita</option>
+        <option value="outros">📦 Outros</option>
+      </select>
+
+      <button id="adicionar">
+        Adicionar movimentação
+      </button>
+
+    </section>
+
+    <section class="historico">
+
+      <h2>Movimentações</h2>
+
+      <div id="listaMovimentacoes">
+        <p class="vazio">Nenhuma movimentação ainda.</p>
+      </div>
+
+    </section>
+
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+ 
+<!-- ===== MODAL FECHAR MÊS ===== -->
+<div id="modalFechamento" class="modal-fechamento">
+  <div class="modal-caixa">
+
+    <div class="modal-icone">✓</div>
+
+    <h2>Fechar o mês?</h2>
+    <p class="modal-subtitulo">
+      Confira os valores antes de confirmar
+    </p>
+
+    <div class="modal-resumo">
+
+      <div class="modal-valor entrada">
+        <span>Entradas</span>
+        <strong id="modalEntradas">R$ 0,00</strong>
+      </div>
+
+      <div class="modal-valor gasto">
+        <span>Gastos</span>
+        <strong id="modalGastos">R$ 0,00</strong>
+      </div>
+
+      <div class="modal-valor saldo">
+        <span>Saldo</span>
+        <strong id="modalSaldo">R$ 0,00</strong>
+      </div>
+
+    </div>
+
+    <div class="modal-botoes">
+      <button id="cancelarFechamento">
+        Cancelar
+      </button>
+
+      <button id="confirmarFechamento">
+        Confirmar fechamento
+      </button>
+    </div>
+
+  </div>
+</div>
+<script src="script.js"></script>
+<div id="toast" class="toast"></div>
+</body>
+</html>
