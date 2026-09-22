@@ -1,4 +1,4 @@
-const CACHE_NAME = "meu-caixa-v1";
+const CACHE_NAME = "meu-caixa-v2";
 
 const arquivos = [
   "./",
@@ -16,6 +16,22 @@ self.addEventListener("install", (event) => {
       return cache.addAll(arquivos);
     })
   );
+
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((nomes) => {
+      return Promise.all(
+        nomes
+          .filter((nome) => nome !== CACHE_NAME)
+          .map((nome) => caches.delete(nome))
+      );
+    })
+  );
+
+  self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
