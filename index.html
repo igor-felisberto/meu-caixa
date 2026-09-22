@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Meu Caixa</title>
-
-  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Meu Caixa</title>  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#7c3aed">
-  <link rel="icon" href="icons/icon-192.png">
-
-  <link rel="stylesheet" href="style.css">
-
-  <style>
-    /* ===== LOGIN ===== */
+  <link rel="icon" href="icons/icon-192.png">  <link rel="stylesheet" href="style.css">  <style>
+    /* =====================================================
+       LOGIN
+    ===================================================== */
 
     #telaLogin {
       position: fixed;
@@ -24,6 +17,8 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
     }
 
     .login-caixa {
@@ -34,6 +29,7 @@
       padding: 30px 25px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
       text-align: center;
+      box-sizing: border-box;
     }
 
     .login-logo {
@@ -45,6 +41,11 @@
       margin: 0;
       font-size: 28px;
       color: #111827;
+    }
+
+    .login-caixa h3 {
+      color: #111827;
+      margin-bottom: 8px;
     }
 
     .login-caixa p {
@@ -99,7 +100,66 @@
       font-size: 14px;
     }
 
-    /* ===== SISTEMA ===== */
+    #recuperacaoSenha,
+    #telaNovaSenha {
+      margin-top: 20px;
+    }
+
+    #btnEsqueciSenha,
+    #btnVoltarLogin {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #btnEsqueciSenha {
+      margin-top: 12px;
+      color: #7c3aed;
+    }
+
+    #btnVoltarLogin {
+      margin-top: 12px;
+      color: #6b7280;
+    }
+
+    #btnEnviarRecuperacao,
+    #btnSalvarNovaSenha {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #btnEnviarRecuperacao {
+      background: #7c3aed;
+    }
+
+    #btnSalvarNovaSenha {
+      background: #16a34a;
+    }
+
+    #btnEnviarRecuperacao:disabled,
+    #btnSalvarNovaSenha:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    #mensagemRecuperacao,
+    #mensagemNovaSenha {
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       SISTEMA
+    ===================================================== */
 
     #sistema {
       display: none;
@@ -113,6 +173,7 @@
       max-width: 1100px;
       margin: 10px auto;
       padding: 0 15px;
+      box-sizing: border-box;
     }
 
     #usuarioLogado {
@@ -120,6 +181,7 @@
       color: #6b7280;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     #btnSair {
@@ -130,470 +192,591 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     #btnSair:hover {
       background: #dc2626;
     }
-  </style>
-</head>
 
-<body>
 
-  <!-- ===== TELA DE LOGIN ===== -->
+    /* =====================================================
+       RESPONSIVO
+    ===================================================== */
 
-  <div id="telaLogin">
+    @media (max-width: 480px) {
 
-    <div class="login-caixa">
+      .login-caixa {
+        padding: 25px 18px;
+        border-radius: 16px;
+      }
 
-      <div class="login-logo">💰</div>
+      .login-logo {
+        font-size: 36px;
+      }
 
-      <h1>MEU CAIXA</h1>
+      .login-caixa h1 {
+        font-size: 25px;
+      }
 
-      <p>Entre para acessar seu controle financeiro.</p>
+      .topo-login {
+        padding: 0 10px;
+      }
 
-      <form id="formLogin">
+    }
+  </style></head><body>  <!-- =====================================================
+       TELA DE LOGIN
+  ===================================================== -->  <div id="telaLogin"><div class="login-caixa">
 
-        <input
-          type="email"
-          id="emailLogin"
-          placeholder="Seu e-mail"
-          autocomplete="email"
-          required
-        >
+  <div class="login-logo">
+    💰
+  </div>
 
-        <input
-          type="password"
-          id="senhaLogin"
-          placeholder="Sua senha"
-          autocomplete="current-password"
-          required
-        >
+  <h1>
+    MEU CAIXA
+  </h1>
 
-       <button type="submit" id="btnLogin">
-  Entrar
-</button>
-
-</form>
-
-<button
-  type="button"
-  id="btnEsqueciSenha"
-  style="
-    margin-top:12px;
-    border:none;
-    background:none;
-    color:#7c3aed;
-    font-weight:bold;
-    cursor:pointer;
-  "
->
-  Esqueci minha senha
-</button>
-
-<div id="erroLogin"></div>
-
-      <div id="erroLogin"></div>
-<!-- RECUPERAÇÃO DE SENHA -->
-<div id="recuperacaoSenha" style="display:none; margin-top:20px;">
-
-  <h3>🔐 Recuperar senha</h3>
-
-  <p style="color:#6b7280;">
-    Digite seu e-mail e enviaremos um link para criar uma nova senha.
+  <p>
+    Entre para acessar seu controle financeiro.
   </p>
 
-  <input
-    type="email"
-    id="emailRecuperacao"
-    placeholder="Seu e-mail"
-    autocomplete="email"
-  >
+
+  <!-- =================================================
+       FORMULÁRIO DE LOGIN
+  ================================================= -->
+
+  <form id="formLogin">
+
+    <input
+      type="email"
+      id="emailLogin"
+      placeholder="Seu e-mail"
+      autocomplete="email"
+      required
+    >
+
+    <input
+      type="password"
+      id="senhaLogin"
+      placeholder="Sua senha"
+      autocomplete="current-password"
+      required
+    >
+
+    <button
+      type="submit"
+      id="btnLogin"
+    >
+      Entrar
+    </button>
+
+  </form>
+
+
+  <!-- =================================================
+       ESQUECI SENHA
+  ================================================= -->
 
   <button
     type="button"
-    id="btnEnviarRecuperacao"
-    style="
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:10px;
-      background:#7c3aed;
-      color:white;
-      font-weight:bold;
-      cursor:pointer;
-    "
+    id="btnEsqueciSenha"
   >
-    Enviar link
+    Esqueci minha senha
   </button>
 
-  <button
-    type="button"
-    id="btnVoltarLogin"
-    style="
-      margin-top:12px;
-      border:none;
-      background:none;
-      color:#6b7280;
-      cursor:pointer;
-    "
-  >
-    ← Voltar para login
-  </button>
+
+  <!-- ERRO DO LOGIN -->
+
+  <div id="erroLogin"></div>
+
+
+  <!-- =================================================
+       RECUPERAÇÃO DE SENHA
+  ================================================= -->
 
   <div
-    id="mensagemRecuperacao"
-    style="margin-top:15px;"
-  ></div>
-
-</div>
-
-
-<!-- NOVA SENHA -->
-<div id="telaNovaSenha" style="display:none; margin-top:20px;">
-
-  <h3>🔑 Criar nova senha</h3>
-
-  <p style="color:#6b7280;">
-    Digite sua nova senha abaixo.
-  </p>
-
-  <input
-    type="password"
-    id="novaSenha"
-    placeholder="Nova senha"
-    autocomplete="new-password"
+    id="recuperacaoSenha"
+    style="display:none;"
   >
 
-  <input
-    type="password"
-    id="confirmarNovaSenha"
-    placeholder="Confirme a nova senha"
-    autocomplete="new-password"
-  >
+    <h3>
+      🔐 Recuperar senha
+    </h3>
 
-  <button
-    type="button"
-    id="btnSalvarNovaSenha"
-    style="
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:10px;
-      background:#16a34a;
-      color:white;
-      font-weight:bold;
-      cursor:pointer;
-    "
-  >
-    Salvar nova senha
-  </button>
+    <p>
+      Digite seu e-mail e enviaremos um link
+      para criar uma nova senha.
+    </p>
 
-  <div
-    id="mensagemNovaSenha"
-    style="margin-top:15px;"
-  ></div>
+    <input
+      type="email"
+      id="emailRecuperacao"
+      placeholder="Seu e-mail"
+      autocomplete="email"
+    >
 
-</div>
-    </div>
+    <button
+      type="button"
+      id="btnEnviarRecuperacao"
+    >
+      Enviar link
+    </button>
+
+    <button
+      type="button"
+      id="btnVoltarLogin"
+    >
+      ← Voltar para login
+    </button>
+
+    <div id="mensagemRecuperacao"></div>
 
   </div>
 
 
-  <!-- ===== SISTEMA MEU CAIXA ===== -->
+  <!-- =================================================
+       NOVA SENHA
+  ================================================= -->
 
-  <div id="sistema">
+  <div
+    id="telaNovaSenha"
+    style="display:none;"
+  >
 
-    <div class="topo-login">
+    <h3>
+      🔑 Criar nova senha
+    </h3>
 
-      <span id="usuarioLogado"></span>
+    <p>
+      Digite sua nova senha abaixo.
+    </p>
 
-      <button id="btnSair">
-        🚪 Sair
+    <input
+      type="password"
+      id="novaSenha"
+      placeholder="Nova senha"
+      autocomplete="new-password"
+    >
+
+    <input
+      type="password"
+      id="confirmarNovaSenha"
+      placeholder="Confirme a nova senha"
+      autocomplete="new-password"
+    >
+
+    <button
+      type="button"
+      id="btnSalvarNovaSenha"
+    >
+      Salvar nova senha
+    </button>
+
+    <div id="mensagemNovaSenha"></div>
+
+  </div>
+
+</div>
+
+  </div>  <!-- =====================================================
+       SISTEMA MEU CAIXA
+  ===================================================== -->  <div id="sistema"><!-- USUÁRIO / SAIR -->
+
+<div class="topo-login">
+
+  <span id="usuarioLogado"></span>
+
+  <button id="btnSair">
+    🚪 Sair
+  </button>
+
+</div>
+
+
+<!-- =================================================
+     CABEÇALHO
+================================================= -->
+
+<header>
+
+  <h1>
+    MEU CAIXA
+  </h1>
+
+  <p>
+    Controle seu dinheiro de forma simples.
+  </p>
+
+</header>
+
+
+<main>
+
+
+  <!-- =================================================
+       RESUMO
+  ================================================= -->
+
+  <section class="resumo">
+
+    <div class="card">
+
+      <span>
+        Saldo atual
+      </span>
+
+      <h2 id="saldo">
+        R$ 0,00
+      </h2>
+
+    </div>
+
+
+    <div class="card">
+
+      <span>
+        Entradas
+      </span>
+
+      <h2 id="totalEntradas">
+        R$ 0,00
+      </h2>
+
+    </div>
+
+
+    <div class="card">
+
+      <span>
+        Gastos
+      </span>
+
+      <h2 id="totalGastos">
+        R$ 0,00
+      </h2>
+
+    </div>
+
+  </section>
+
+
+  <!-- =================================================
+       FILTROS
+  ================================================= -->
+
+  <section class="filtros">
+
+    <button
+      class="filtro ativo"
+      data-periodo="todos"
+    >
+      Todos
+    </button>
+
+    <button
+      class="filtro"
+      data-periodo="hoje"
+    >
+      Hoje
+    </button>
+
+    <button
+      class="filtro"
+      data-periodo="semana"
+    >
+      Semana
+    </button>
+
+    <button
+      class="filtro"
+      data-periodo="mes"
+    >
+      Mês
+    </button>
+
+  </section>
+
+
+  <!-- =================================================
+       FECHAMENTO DO MÊS
+  ================================================= -->
+
+  <section class="fechamento-mes">
+
+    <button id="btnFecharMes">
+      Fechar mês
+    </button>
+
+  </section>
+
+
+  <!-- =================================================
+       HISTÓRICO MENSAL
+  ================================================= -->
+
+  <section class="historico-mensal">
+
+    <div class="historico-topo">
+
+      <h2>
+        Histórico mensal
+      </h2>
+
+      <button id="btnHistorico">
+        Ver histórico
       </button>
 
     </div>
 
-    <header>
-      <h1>MEU CAIXA</h1>
-      <p>Controle seu dinheiro de forma simples.</p>
-    </header>
+    <div
+      id="listaHistorico"
+      class="lista-historico"
+    ></div>
 
-    <main>
+  </section>
 
-      <section class="resumo">
 
-        <div class="card">
-          <span>Saldo atual</span>
-          <h2 id="saldo">R$ 0,00</h2>
-        </div>
+  <!-- =================================================
+       GRÁFICO
+  ================================================= -->
 
-        <div class="card">
-          <span>Entradas</span>
-          <h2 id="totalEntradas">R$ 0,00</h2>
-        </div>
+  <section class="grafico-financeiro">
 
-        <div class="card">
-          <span>Gastos</span>
-          <h2 id="totalGastos">R$ 0,00</h2>
-        </div>
+    <h2>
+      Entradas x Gastos
+    </h2>
 
-      </section>
+    <div class="grafico-container">
 
+      <canvas
+        id="graficoFinanceiro"
+      ></canvas>
 
-      <section class="filtros">
+    </div>
 
-        <button class="filtro ativo" data-periodo="todos">
-          Todos
-        </button>
+  </section>
 
-        <button class="filtro" data-periodo="hoje">
-          Hoje
-        </button>
 
-        <button class="filtro" data-periodo="semana">
-          Semana
-        </button>
+  <!-- =================================================
+       CATEGORIAS
+  ================================================= -->
 
-        <button class="filtro" data-periodo="mes">
-          Mês
-        </button>
+  <section class="resumo-categorias">
 
-      </section>
+    <h2>
+      Resumo por categoria
+    </h2>
 
+    <div id="listaCategorias">
 
-      <section class="fechamento-mes">
+      <p>
+        Nenhum gasto por categoria ainda.
+      </p>
 
-        <button id="btnFecharMes">
-          Fechar mês
-        </button>
+    </div>
 
-      </section>
+  </section>
 
 
-      <section class="historico-mensal">
+  <!-- =================================================
+       NOVA MOVIMENTAÇÃO
+  ================================================= -->
 
-        <div class="historico-topo">
+  <section class="nova-movimentacao">
 
-          <h2>Histórico mensal</h2>
+    <h2>
+      Nova movimentação
+    </h2>
 
-          <button id="btnHistorico">
-            Ver histórico
-          </button>
 
-        </div>
+    <input
+      type="text"
+      id="descricao"
+      placeholder="Ex: Corte de cabelo, mercado, gasolina..."
+    >
 
-        <div id="listaHistorico" class="lista-historico"></div>
 
-      </section>
+    <input
+      type="number"
+      id="valor"
+      placeholder="Valor R$"
+      step="0.01"
+    >
 
 
-      <section class="grafico-financeiro">
+    <select id="tipo">
 
-        <h2>Entradas x Gastos</h2>
+      <option value="entrada">
+        Entrada
+      </option>
 
-        <div class="grafico-container">
-          <canvas id="graficoFinanceiro"></canvas>
-        </div>
+      <option value="gasto">
+        Gasto
+      </option>
 
-      </section>
+    </select>
 
 
-      <section class="resumo-categorias">
+    <select id="categoria">
 
-        <h2>Resumo por categoria</h2>
+      <option value="alimentacao">
+        🍔 Alimentação
+      </option>
 
-        <div id="listaCategorias">
-          <p>Nenhum gasto por categoria ainda.</p>
-        </div>
+      <option value="contas">
+        💡 Contas
+      </option>
 
-      </section>
+      <option value="transporte">
+        🚗 Transporte
+      </option>
 
+      <option value="barbearia">
+        💈 Barbearia
+      </option>
 
-      <section class="nova-movimentacao">
+      <option value="lazer">
+        🎮 Lazer
+      </option>
 
-        <h2>Nova movimentação</h2>
+      <option value="compras">
+        🛒 Compras
+      </option>
 
-        <input
-          type="text"
-          id="descricao"
-          placeholder="Ex: Corte de cabelo, mercado, gasolina..."
-        >
+      <option value="receita">
+        💰 Salário / Receita
+      </option>
 
-        <input
-          type="number"
-          id="valor"
-          placeholder="Valor R$"
-          step="0.01"
-        >
+      <option value="outros">
+        📦 Outros
+      </option>
 
-        <select id="tipo">
+    </select>
 
-          <option value="entrada">
-            Entrada
-          </option>
 
-          <option value="gasto">
-            Gasto
-          </option>
+    <button id="adicionar">
+      Adicionar movimentação
+    </button>
 
-        </select>
+  </section>
 
 
-        <select id="categoria">
+  <!-- =================================================
+       MOVIMENTAÇÕES
+  ================================================= -->
 
-          <option value="alimentacao">
-            🍔 Alimentação
-          </option>
+  <section class="historico">
 
-          <option value="contas">
-            💡 Contas
-          </option>
+    <h2>
+      Movimentações
+    </h2>
 
-          <option value="transporte">
-            🚗 Transporte
-          </option>
+    <div id="listaMovimentacoes">
 
-          <option value="barbearia">
-            💈 Barbearia
-          </option>
+      <p class="vazio">
+        Nenhuma movimentação ainda.
+      </p>
 
-          <option value="lazer">
-            🎮 Lazer
-          </option>
+    </div>
 
-          <option value="compras">
-            🛒 Compras
-          </option>
+  </section>
 
-          <option value="receita">
-            💰 Salário / Receita
-          </option>
+</main>
 
-          <option value="outros">
-            📦 Outros
-          </option>
 
-        </select>
+<!-- =====================================================
+     MODAL FECHAR MÊS
+===================================================== -->
 
+<div
+  id="modalFechamento"
+  class="modal-fechamento"
+>
 
-        <button id="adicionar">
-          Adicionar movimentação
-        </button>
+  <div class="modal-caixa">
 
-      </section>
+    <div class="modal-icone">
+      ✓
+    </div>
 
+    <h2>
+      Fechar o mês?
+    </h2>
 
-      <section class="historico">
+    <p class="modal-subtitulo">
+      Confira os valores antes de confirmar
+    </p>
 
-        <h2>Movimentações</h2>
 
-        <div id="listaMovimentacoes">
+    <div class="modal-resumo">
 
-          <p class="vazio">
-            Nenhuma movimentação ainda.
-          </p>
 
-        </div>
+      <div class="modal-valor entrada">
 
-      </section>
+        <span>
+          Entradas
+        </span>
 
-    </main>
+        <strong id="modalEntradas">
+          R$ 0,00
+        </strong>
 
+      </div>
 
-    <!-- ===== MODAL FECHAR MÊS ===== -->
 
-    <div id="modalFechamento" class="modal-fechamento">
+      <div class="modal-valor gasto">
 
-      <div class="modal-caixa">
+        <span>
+          Gastos
+        </span>
 
-        <div class="modal-icone">
-          ✓
-        </div>
+        <strong id="modalGastos">
+          R$ 0,00
+        </strong>
 
-        <h2>
-          Fechar o mês?
-        </h2>
+      </div>
 
-        <p class="modal-subtitulo">
-          Confira os valores antes de confirmar
-        </p>
 
+      <div class="modal-valor saldo">
 
-        <div class="modal-resumo">
+        <span>
+          Saldo
+        </span>
 
-          <div class="modal-valor entrada">
-
-            <span>
-              Entradas
-            </span>
-
-            <strong id="modalEntradas">
-              R$ 0,00
-            </strong>
-
-          </div>
-
-
-          <div class="modal-valor gasto">
-
-            <span>
-              Gastos
-            </span>
-
-            <strong id="modalGastos">
-              R$ 0,00
-            </strong>
-
-          </div>
-
-
-          <div class="modal-valor saldo">
-
-            <span>
-              Saldo
-            </span>
-
-            <strong id="modalSaldo">
-              R$ 0,00
-            </strong>
-
-          </div>
-
-        </div>
-
-
-        <div class="modal-botoes">
-
-          <button id="cancelarFechamento">
-            Cancelar
-          </button>
-
-          <button id="confirmarFechamento">
-            Confirmar fechamento
-          </button>
-
-        </div>
+        <strong id="modalSaldo">
+          R$ 0,00
+        </strong>
 
       </div>
 
     </div>
 
 
-    <div id="toast" class="toast"></div>
+    <div class="modal-botoes">
+
+      <button id="cancelarFechamento">
+        Cancelar
+      </button>
+
+      <button id="confirmarFechamento">
+        Confirmar fechamento
+      </button>
+
+    </div>
 
   </div>
 
+</div>
 
-  <!-- ===== BIBLIOTECAS ===== -->
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- TOAST -->
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div
+  id="toast"
+  class="toast"
+></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-
-  <script src="script.js"></script>
-
-</body>
+  </div>  <!-- =====================================================
+       BIBLIOTECAS
+  ===================================================== -->  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>  <!-- NOSSO JAVASCRIPT -->  <script src="script.js"></script></body>
 </html>
