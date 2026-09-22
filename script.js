@@ -84,14 +84,34 @@ const btnSalvarNovaSenha =
 const mensagemNovaSenha =
   document.getElementById("mensagemNovaSenha");
 
-
 // =====================================================
-// URL DE RECUPERAÇÃO
+// CONFIGURAÇÃO DE RECUPERAÇÃO DE SENHA
 // =====================================================
 
 const URL_RECUPERACAO =
-  window.location.origin +
-  window.location.pathname;
+  "https://igor-felisberto.github.io/meu-caixa/";
+
+// Detecta se o usuário acabou de voltar pelo link
+// de recuperação enviado pelo Supabase.
+let modoRecuperacao = false;
+
+function detectarRecuperacao() {
+
+  const hash = window.location.hash || "";
+  const search = window.location.search || "";
+
+  if (
+    hash.includes("type=recovery") ||
+    search.includes("type=recovery")
+  ) {
+    modoRecuperacao = true;
+    return true;
+  }
+
+  return false;
+}
+
+detectarRecuperacao();
 
 
 // =====================================================
@@ -103,11 +123,9 @@ btnEsqueciSenha.addEventListener(
   function () {
 
     formLogin.style.display = "none";
-
     erroLogin.style.display = "none";
 
     recuperacaoSenha.style.display = "block";
-
     telaNovaSenha.style.display = "none";
 
     mensagemRecuperacao.textContent = "";
@@ -127,15 +145,24 @@ btnVoltarLogin.addEventListener(
   "click",
   function () {
 
-    recuperacaoSenha.style.display = "none";
+    modoRecuperacao = false;
 
+    recuperacaoSenha.style.display = "none";
     telaNovaSenha.style.display = "none";
 
     formLogin.style.display = "block";
 
     mensagemRecuperacao.textContent = "";
-
     mensagemNovaSenha.textContent = "";
+
+    // Limpa possível token da URL
+    if (window.location.hash) {
+      history.replaceState(
+        null,
+        "",
+        window.location.pathname
+      );
+    }
 
   }
 );
@@ -168,46 +195,82 @@ btnEnviarRecuperacao.addEventListener(
     btnEnviarRecuperacao.textContent =
       "Enviando...";
 
+    mensagemRecuperacao.textContent =
+      "Enviando o link de recuperação...";
 
-    const { error } =
-      await supabaseClient.auth
-        .resetPasswordForEmail(
-          email,
-          {
-            redirectTo:
-              URL_RECUPERACAO
-          }
+    mensagemRecuperacao.style.color =
+      "#6b7280";
+
+
+    try {
+
+      const resultado =
+        await supabaseClient.auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                URL_RECUPERACAO
+            }
+          );
+
+      const error =
+        resultado.error;
+
+
+      if (error) {
+
+        console.error(
+          "ERRO SUPABASE RECUPERAÇÃO:",
+          error
         );
 
+        mensagemRecuperacao.textContent =
+          "Erro: " +
+          (
+            error.message ||
+            "Não foi possível enviar o link."
+          );
 
-    if (error) {
+        mensagemRecuperacao.style.color =
+          "#b91c1c";
+
+        btnEnviarRecuperacao.disabled =
+          false;
+
+        btnEnviarRecuperacao.textContent =
+          "Enviar link";
+
+        return;
+      }
+
+
+      mensagemRecuperacao.textContent =
+        "✅ Link enviado! Verifique seu e-mail.";
+
+      mensagemRecuperacao.style.color =
+        "#15803d";
+
+    }
+
+    catch (erro) {
 
       console.error(
-        "Erro recuperação:",
-        error
+        "ERRO INESPERADO:",
+        erro
       );
 
       mensagemRecuperacao.textContent =
-        "Não foi possível enviar o link. Tente novamente.";
+        "Erro ao enviar: " +
+        (
+          erro.message ||
+          "Tente novamente."
+        );
 
       mensagemRecuperacao.style.color =
         "#b91c1c";
 
-      btnEnviarRecuperacao.disabled =
-        false;
-
-      btnEnviarRecuperacao.textContent =
-        "Enviar link";
-
-      return;
     }
-
-
-    mensagemRecuperacao.textContent =
-      "✅ Se o e-mail estiver cadastrado, o link de recuperação foi enviado. Verifique sua caixa de entrada.";
-
-    mensagemRecuperacao.style.color =
-      "#15803d";
 
 
     btnEnviarRecuperacao.disabled =
@@ -225,6 +288,8 @@ btnEnviarRecuperacao.addEventListener(
 // =====================================================
 
 function mostrarTelaNovaSenha() {
+
+  modoRecuperacao = true;
 
   telaLogin.style.display =
     "flex";
@@ -280,7 +345,6 @@ btnSalvarNovaSenha.addEventListener(
         "#b91c1c";
 
       return;
-
     }
 
 
@@ -293,7 +357,6 @@ btnSalvarNovaSenha.addEventListener(
         "#b91c1c";
 
       return;
-
     }
 
 
@@ -304,22 +367,111 @@ btnSalvarNovaSenha.addEventListener(
       "Salvando...";
 
 
-    const { error } =
-      await supabaseClient.auth
-        .updateUser({
-          password: senha
-        });
+    try {
+
+      const resultado =
+        await supabaseClient.auth
+          .updateUser({
+            password: senha
+          });
+
+      const error =
+        resultado.error;
 
 
-    if (error) {
+      if (error) {
+
+        console.error(
+          "ERRO AO ALTERAR SENHA:",
+          error
+        );
+
+        mensagemNovaSenha.textContent =
+          "Erro: " +
+          (
+            error.message ||
+            "Não foi possível alterar a senha."
+          );
+
+        mensagemNovaSenha.style.color =
+          "#b91c1c";
+
+        btnSalvarNovaSenha.disabled =
+          false;
+
+        btnSalvarNovaSenha.textContent =
+          "Salvar nova senha";
+
+        return;
+      }
+
+
+      mensagemNovaSenha.textContent =
+        "✅ Senha alterada com sucesso!";
+
+      mensagemNovaSenha.style.color =
+        "#15803d";
+
+
+      setTimeout(
+        async function () {
+
+          modoRecuperacao =
+            false;
+
+          await supabaseClient.auth
+            .signOut();
+
+          telaNovaSenha.style.display =
+            "none";
+
+          formLogin.style.display =
+            "block";
+
+          sistema.style.display =
+            "none";
+
+          emailLogin.value =
+            emailRecuperacao.value.trim();
+
+          senhaLogin.value =
+            "";
+
+          mensagemNovaSenha.textContent =
+            "";
+
+          // Remove o token de recuperação da URL
+          history.replaceState(
+            null,
+            "",
+            window.location.pathname
+          );
+
+          btnSalvarNovaSenha.disabled =
+            false;
+
+          btnSalvarNovaSenha.textContent =
+            "Salvar nova senha";
+
+        },
+        1500
+      );
+
+    }
+
+    catch (erro) {
 
       console.error(
-        "Erro ao atualizar senha:",
-        error
+        "ERRO INESPERADO AO ALTERAR SENHA:",
+        erro
       );
 
       mensagemNovaSenha.textContent =
-        "Não foi possível alterar a senha. Solicite um novo link.";
+        "Erro: " +
+        (
+          erro.message ||
+          "Não foi possível alterar a senha."
+        );
 
       mensagemNovaSenha.style.color =
         "#b91c1c";
@@ -330,41 +482,7 @@ btnSalvarNovaSenha.addEventListener(
       btnSalvarNovaSenha.textContent =
         "Salvar nova senha";
 
-      return;
-
     }
-
-
-    mensagemNovaSenha.textContent =
-      "✅ Senha alterada com sucesso!";
-
-    mensagemNovaSenha.style.color =
-      "#15803d";
-
-
-    setTimeout(
-      async function () {
-
-        await supabaseClient.auth.signOut();
-
-        telaNovaSenha.style.display =
-          "none";
-
-        formLogin.style.display =
-          "block";
-
-        emailLogin.value =
-          emailRecuperacao.value.trim();
-
-        senhaLogin.value =
-          "";
-
-        mensagemNovaSenha.textContent =
-          "";
-
-      },
-      1500
-    );
 
   }
 );
@@ -410,6 +528,11 @@ function mostrarSistema(
   usuario
 ) {
 
+  // NUNCA abrir o caixa durante recuperação
+  if (modoRecuperacao) {
+    return;
+  }
+
   telaLogin.style.display =
     "none";
 
@@ -439,6 +562,12 @@ function mostrarSistema(
 
 function mostrarLogin() {
 
+  // Se estiver recuperando senha,
+  // não mostrar o login normal.
+  if (modoRecuperacao) {
+    return;
+  }
+
   telaLogin.style.display =
     "flex";
 
@@ -460,7 +589,6 @@ formLogin.addEventListener(
 
     esconderErroLogin();
 
-
     const email =
       emailLogin.value.trim();
 
@@ -478,7 +606,6 @@ formLogin.addEventListener(
       );
 
       return;
-
     }
 
 
@@ -489,16 +616,17 @@ formLogin.addEventListener(
       "Entrando...";
 
 
-    const { data, error } =
+    const {
+      data,
+      error
+    } =
       await supabaseClient.auth
         .signInWithPassword({
-
           email:
             email,
 
           password:
             senha
-
         });
 
 
@@ -520,13 +648,16 @@ formLogin.addEventListener(
         "Entrar";
 
       return;
-
     }
 
 
     if (
+      data &&
       data.user
     ) {
+
+      modoRecuperacao =
+        false;
 
       mostrarSistema(
         data.user
@@ -564,8 +695,12 @@ btnSair.addEventListener(
     }
 
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient.auth
+      .signOut();
 
+
+    modoRecuperacao =
+      false;
 
     mostrarLogin();
 
@@ -581,50 +716,6 @@ btnSair.addEventListener(
 
 
 // =====================================================
-// VERIFICAR SESSÃO
-// =====================================================
-
-async function verificarSessao() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.getSession();
-
-
-  if (error) {
-
-    console.error(
-      "Erro ao verificar sessão:",
-      error
-    );
-
-    mostrarLogin();
-
-    return;
-
-  }
-
-
-  if (
-    data.session
-  ) {
-
-    mostrarSistema(
-      data.session.user
-    );
-
-  } else {
-
-    mostrarLogin();
-
-  }
-
-}
-
-
-// =====================================================
 // OBSERVAR EVENTOS DO SUPABASE
 // =====================================================
 
@@ -635,7 +726,7 @@ supabaseClient.auth.onAuthStateChange(
   ) {
 
     console.log(
-      "Evento Supabase:",
+      "EVENTO SUPABASE:",
       event
     );
 
@@ -649,10 +740,16 @@ supabaseClient.auth.onAuthStateChange(
       "PASSWORD_RECOVERY"
     ) {
 
+      console.log(
+        "🔐 RECUPERAÇÃO DE SENHA DETECTADA"
+      );
+
+      modoRecuperacao =
+        true;
+
       mostrarTelaNovaSenha();
 
       return;
-
     }
 
 
@@ -667,12 +764,17 @@ supabaseClient.auth.onAuthStateChange(
       session.user
     ) {
 
+      // Não deixar SIGNED_IN
+      // atropelar recuperação.
+      if (modoRecuperacao) {
+        return;
+      }
+
       mostrarSistema(
         session.user
       );
 
       return;
-
     }
 
 
@@ -685,6 +787,10 @@ supabaseClient.auth.onAuthStateChange(
       "SIGNED_OUT"
     ) {
 
+      if (modoRecuperacao) {
+        return;
+      }
+
       mostrarLogin();
 
     }
@@ -692,6 +798,67 @@ supabaseClient.auth.onAuthStateChange(
   }
 );
 
+
+// =====================================================
+// VERIFICAR SESSÃO
+// =====================================================
+
+async function verificarSessao() {
+
+  // Se voltou pelo link de recuperação,
+  // NÃO abrir o sistema financeiro.
+  if (detectarRecuperacao()) {
+
+    modoRecuperacao =
+      true;
+
+    mostrarTelaNovaSenha();
+
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth
+      .getSession();
+
+
+  if (error) {
+
+    console.error(
+      "Erro ao verificar sessão:",
+      error
+    );
+
+    mostrarLogin();
+
+    return;
+  }
+
+
+  if (
+    data &&
+    data.session
+  ) {
+
+    if (!modoRecuperacao) {
+
+      mostrarSistema(
+        data.session.user
+      );
+
+    }
+
+  } else {
+
+    mostrarLogin();
+
+  }
+
+}
 
 // =====================================================
 // VARIÁVEIS DO CAIXA
