@@ -176,11 +176,9 @@ btnEnviarRecuperacao.addEventListener(
   "click",
   async function () {
 
-    const email =
-      emailRecuperacao.value.trim();
+    const email = emailRecuperacao.value.trim();
 
     if (!email) {
-
       mensagemRecuperacao.textContent =
         "Digite seu e-mail.";
 
@@ -191,9 +189,7 @@ btnEnviarRecuperacao.addEventListener(
     }
 
     btnEnviarRecuperacao.disabled = true;
-
-    btnEnviarRecuperacao.textContent =
-      "Enviando...";
+    btnEnviarRecuperacao.textContent = "Enviando...";
 
     mensagemRecuperacao.textContent =
       "Enviando o link de recuperação...";
@@ -201,22 +197,16 @@ btnEnviarRecuperacao.addEventListener(
     mensagemRecuperacao.style.color =
       "#6b7280";
 
-
     try {
 
-      const resultado =
-        await supabaseClient.auth
-          .resetPasswordForEmail(
-            email,
-            {
-              redirectTo:
-                URL_RECUPERACAO
-            }
-          );
-
-      const error =
-        resultado.error;
-
+      const { error } =
+        await supabaseClient.auth.resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              "https://igor-felisberto.github.io/meu-caixa/"
+          }
+        );
 
       if (error) {
 
@@ -226,24 +216,13 @@ btnEnviarRecuperacao.addEventListener(
         );
 
         mensagemRecuperacao.textContent =
-          "Erro: " +
-          (
-            error.message ||
-            "Não foi possível enviar o link."
-          );
+          "Erro: " + error.message;
 
         mensagemRecuperacao.style.color =
           "#b91c1c";
 
-        btnEnviarRecuperacao.disabled =
-          false;
-
-        btnEnviarRecuperacao.textContent =
-          "Enviar link";
-
         return;
       }
-
 
       mensagemRecuperacao.textContent =
         "✅ Link enviado! Verifique seu e-mail.";
@@ -251,34 +230,25 @@ btnEnviarRecuperacao.addEventListener(
       mensagemRecuperacao.style.color =
         "#15803d";
 
-    }
-
-    catch (erro) {
+    } catch (erro) {
 
       console.error(
-        "ERRO INESPERADO:",
+        "ERRO AO ENVIAR RECUPERAÇÃO:",
         erro
       );
 
       mensagemRecuperacao.textContent =
-        "Erro ao enviar: " +
-        (
-          erro.message ||
-          "Tente novamente."
-        );
+        "Erro ao enviar o link.";
 
       mensagemRecuperacao.style.color =
         "#b91c1c";
 
+    } finally {
+
+      btnEnviarRecuperacao.disabled = false;
+      btnEnviarRecuperacao.textContent =
+        "Enviar link";
     }
-
-
-    btnEnviarRecuperacao.disabled =
-      false;
-
-    btnEnviarRecuperacao.textContent =
-      "Enviar link";
-
   }
 );
 
@@ -291,33 +261,23 @@ function mostrarTelaNovaSenha() {
 
   modoRecuperacao = true;
 
-  telaLogin.style.display =
-    "flex";
+  telaLogin.style.display = "flex";
 
-  sistema.style.display =
-    "none";
+  sistema.style.display = "none";
 
-  formLogin.style.display =
-    "none";
+  formLogin.style.display = "none";
 
-  recuperacaoSenha.style.display =
-    "none";
+  recuperacaoSenha.style.display = "none";
 
-  erroLogin.style.display =
-    "none";
+  erroLogin.style.display = "none";
 
-  telaNovaSenha.style.display =
-    "block";
+  telaNovaSenha.style.display = "block";
 
-  novaSenha.value =
-    "";
+  novaSenha.value = "";
 
-  confirmarNovaSenha.value =
-    "";
+  confirmarNovaSenha.value = "";
 
-  mensagemNovaSenha.textContent =
-    "";
-
+  mensagemNovaSenha.textContent = "";
 }
 
 
@@ -329,12 +289,8 @@ btnSalvarNovaSenha.addEventListener(
   "click",
   async function () {
 
-    const senha =
-      novaSenha.value;
-
-    const confirmacao =
-      confirmarNovaSenha.value;
-
+    const senha = novaSenha.value;
+    const confirmacao = confirmarNovaSenha.value;
 
     if (senha.length < 6) {
 
@@ -347,7 +303,6 @@ btnSalvarNovaSenha.addEventListener(
       return;
     }
 
-
     if (senha !== confirmacao) {
 
       mensagemNovaSenha.textContent =
@@ -359,25 +314,17 @@ btnSalvarNovaSenha.addEventListener(
       return;
     }
 
-
-    btnSalvarNovaSenha.disabled =
-      true;
+    btnSalvarNovaSenha.disabled = true;
 
     btnSalvarNovaSenha.textContent =
       "Salvando...";
 
-
     try {
 
-      const resultado =
-        await supabaseClient.auth
-          .updateUser({
-            password: senha
-          });
-
-      const error =
-        resultado.error;
-
+      const { error } =
+        await supabaseClient.auth.updateUser({
+          password: senha
+        });
 
       if (error) {
 
@@ -387,24 +334,13 @@ btnSalvarNovaSenha.addEventListener(
         );
 
         mensagemNovaSenha.textContent =
-          "Erro: " +
-          (
-            error.message ||
-            "Não foi possível alterar a senha."
-          );
+          "Erro: " + error.message;
 
         mensagemNovaSenha.style.color =
           "#b91c1c";
 
-        btnSalvarNovaSenha.disabled =
-          false;
-
-        btnSalvarNovaSenha.textContent =
-          "Salvar nova senha";
-
         return;
       }
-
 
       mensagemNovaSenha.textContent =
         "✅ Senha alterada com sucesso!";
@@ -412,43 +348,33 @@ btnSalvarNovaSenha.addEventListener(
       mensagemNovaSenha.style.color =
         "#15803d";
 
-
       setTimeout(
         async function () {
 
-          modoRecuperacao =
-            false;
+          modoRecuperacao = false;
 
-          await supabaseClient.auth
-            .signOut();
+          await supabaseClient.auth.signOut();
 
-          telaNovaSenha.style.display =
-            "none";
+          telaNovaSenha.style.display = "none";
 
-          formLogin.style.display =
-            "block";
+          formLogin.style.display = "block";
 
-          sistema.style.display =
-            "none";
+          sistema.style.display = "none";
 
           emailLogin.value =
             emailRecuperacao.value.trim();
 
-          senhaLogin.value =
-            "";
+          senhaLogin.value = "";
 
-          mensagemNovaSenha.textContent =
-            "";
+          mensagemNovaSenha.textContent = "";
 
-          // Remove o token de recuperação da URL
           history.replaceState(
             null,
             "",
             window.location.pathname
           );
 
-          btnSalvarNovaSenha.disabled =
-            false;
+          btnSalvarNovaSenha.disabled = false;
 
           btnSalvarNovaSenha.textContent =
             "Salvar nova senha";
@@ -457,9 +383,7 @@ btnSalvarNovaSenha.addEventListener(
         1500
       );
 
-    }
-
-    catch (erro) {
+    } catch (erro) {
 
       console.error(
         "ERRO INESPERADO AO ALTERAR SENHA:",
@@ -467,26 +391,20 @@ btnSalvarNovaSenha.addEventListener(
       );
 
       mensagemNovaSenha.textContent =
-        "Erro: " +
-        (
-          erro.message ||
-          "Não foi possível alterar a senha."
-        );
+        "Erro ao alterar a senha.";
 
       mensagemNovaSenha.style.color =
         "#b91c1c";
 
-      btnSalvarNovaSenha.disabled =
-        false;
+    } finally {
+
+      btnSalvarNovaSenha.disabled = false;
 
       btnSalvarNovaSenha.textContent =
         "Salvar nova senha";
-
     }
-
   }
 );
-
 
 // =====================================================
 // MOSTRAR ERRO DE LOGIN
