@@ -6,8 +6,7 @@ const SUPABASE_URL =
   "https://ktlzfjelnzijwjwuktxm.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzIiwicmVmIjoia3RsemZqZWxuemlqd2p3dWt0eHhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4MDc4ODYsImV4cCI6MjEwNTM4Mzg4Nn0.zd2ROhtvVeZfa4GVFXicgjB1sOCnVkDNIaDym8Ts_lY";
-
+ sb_publishable_n7fT_UhG9wQiqoFfSYb6xQ_w5zT4tGF
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
