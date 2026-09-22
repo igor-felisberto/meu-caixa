@@ -146,7 +146,7 @@ btnVoltarLogin.addEventListener(
 
     modoRecuperacao = false;
 
-    recuperacaoSenha.style.display = "none";
+  recuperacaoSenha.style.display = "none";
     telaNovaSenha.style.display = "none";
 
     formLogin.style.display = "block";
