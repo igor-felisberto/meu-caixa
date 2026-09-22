@@ -36,7 +36,295 @@ const usuarioLogado =
 
 const btnSair =
   document.getElementById("btnSair");
+// =====================================================
+// RECUPERAÇÃO DE SENHA
+// =====================================================
 
+const btnEsqueciSenha =
+  document.getElementById("btnEsqueciSenha");
+
+const recuperacaoSenha =
+  document.getElementById("recuperacaoSenha");
+
+const emailRecuperacao =
+  document.getElementById("emailRecuperacao");
+
+const btnEnviarRecuperacao =
+  document.getElementById("btnEnviarRecuperacao");
+
+const btnVoltarLogin =
+  document.getElementById("btnVoltarLogin");
+
+const mensagemRecuperacao =
+  document.getElementById("mensagemRecuperacao");
+
+const telaNovaSenha =
+  document.getElementById("telaNovaSenha");
+
+const novaSenha =
+  document.getElementById("novaSenha");
+
+const confirmarNovaSenha =
+  document.getElementById("confirmarNovaSenha");
+
+const btnSalvarNovaSenha =
+  document.getElementById("btnSalvarNovaSenha");
+
+const mensagemNovaSenha =
+  document.getElementById("mensagemNovaSenha");
+
+
+// URL para onde o Supabase vai devolver o usuário
+const URL_RECUPERACAO =
+  window.location.origin +
+  window.location.pathname;
+
+
+// =====================================================
+// ABRIR RECUPERAÇÃO
+// =====================================================
+
+btnEsqueciSenha.addEventListener("click", function () {
+
+  formLogin.style.display = "none";
+
+  erroLogin.style.display = "none";
+
+  recuperacaoSenha.style.display = "block";
+
+  mensagemRecuperacao.textContent = "";
+
+  emailRecuperacao.value =
+    emailLogin.value.trim();
+
+});
+
+
+// =====================================================
+// VOLTAR PARA LOGIN
+// =====================================================
+
+btnVoltarLogin.addEventListener("click", function () {
+
+  recuperacaoSenha.style.display = "none";
+
+  formLogin.style.display = "block";
+
+  mensagemRecuperacao.textContent = "";
+
+});
+
+
+// =====================================================
+// ENVIAR E-MAIL DE RECUPERAÇÃO
+// =====================================================
+
+btnEnviarRecuperacao.addEventListener(
+  "click",
+  async function () {
+
+    const email =
+      emailRecuperacao.value.trim();
+
+    if (!email) {
+
+      mensagemRecuperacao.textContent =
+        "Digite seu e-mail.";
+
+      mensagemRecuperacao.style.color =
+        "#b91c1c";
+
+      return;
+    }
+
+    btnEnviarRecuperacao.disabled = true;
+
+    btnEnviarRecuperacao.textContent =
+      "Enviando...";
+
+
+    const { error } =
+      await supabaseClient.auth
+        .resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              URL_RECUPERACAO
+          }
+        );
+
+
+    if (error) {
+
+      console.error(
+        "Erro recuperação:",
+        error
+      );
+
+      mensagemRecuperacao.textContent =
+        "Não foi possível enviar o link. Tente novamente.";
+
+      mensagemRecuperacao.style.color =
+        "#b91c1c";
+
+      btnEnviarRecuperacao.disabled = false;
+
+      btnEnviarRecuperacao.textContent =
+        "Enviar link";
+
+      return;
+    }
+
+
+    mensagemRecuperacao.textContent =
+      "✅ Se o e-mail estiver cadastrado, o link de recuperação foi enviado. Verifique sua caixa de entrada.";
+
+    mensagemRecuperacao.style.color =
+      "#15803d";
+
+
+    btnEnviarRecuperacao.disabled = false;
+
+    btnEnviarRecuperacao.textContent =
+      "Enviar link";
+
+  }
+);
+
+
+// =====================================================
+// MOSTRAR TELA DE NOVA SENHA
+// =====================================================
+
+function mostrarTelaNovaSenha() {
+
+  telaLogin.style.display = "flex";
+
+  sistema.style.display = "none";
+
+  formLogin.style.display = "none";
+
+  recuperacaoSenha.style.display = "none";
+
+  erroLogin.style.display = "none";
+
+  telaNovaSenha.style.display = "block";
+
+  novaSenha.value = "";
+
+  confirmarNovaSenha.value = "";
+
+  mensagemNovaSenha.textContent = "";
+
+}
+
+
+// =====================================================
+// SALVAR NOVA SENHA
+// =====================================================
+
+btnSalvarNovaSenha.addEventListener(
+  "click",
+  async function () {
+
+    const senha =
+      novaSenha.value;
+
+    const confirmacao =
+      confirmarNovaSenha.value;
+
+
+    if (senha.length < 6) {
+
+      mensagemNovaSenha.textContent =
+        "A senha precisa ter pelo menos 6 caracteres.";
+
+      mensagemNovaSenha.style.color =
+        "#b91c1c";
+
+      return;
+    }
+
+
+    if (senha !== confirmacao) {
+
+      mensagemNovaSenha.textContent =
+        "As senhas não são iguais.";
+
+      mensagemNovaSenha.style.color =
+        "#b91c1c";
+
+      return;
+    }
+
+
+    btnSalvarNovaSenha.disabled = true;
+
+    btnSalvarNovaSenha.textContent =
+      "Salvando...";
+
+
+    const { error } =
+      await supabaseClient.auth
+        .updateUser({
+          password: senha
+        });
+
+
+    if (error) {
+
+      console.error(
+        "Erro ao atualizar senha:",
+        error
+      );
+
+      mensagemNovaSenha.textContent =
+        "Não foi possível alterar a senha. Solicite um novo link.";
+
+      mensagemNovaSenha.style.color =
+        "#b91c1c";
+
+      btnSalvarNovaSenha.disabled = false;
+
+      btnSalvarNovaSenha.textContent =
+        "Salvar nova senha";
+
+      return;
+    }
+
+
+    mensagemNovaSenha.textContent =
+      "✅ Senha alterada com sucesso!";
+
+    mensagemNovaSenha.style.color =
+      "#15803d";
+
+
+    setTimeout(
+      async function () {
+
+        await supabaseClient.auth.signOut();
+
+        telaNovaSenha.style.display =
+          "none";
+
+        formLogin.style.display =
+          "block";
+
+        emailLogin.value =
+          emailRecuperacao.value.trim();
+
+        senhaLogin.value = "";
+
+        mensagemNovaSenha.textContent =
+          "";
+
+      },
+      1500
+    );
+
+  }
+);
 
 // =====================================================
 // MOSTRAR ERRO DE LOGIN
