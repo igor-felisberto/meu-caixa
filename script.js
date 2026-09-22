@@ -671,50 +671,50 @@ supabaseClient.auth.onAuthStateChange(
     ) {
 
       if (modoRecuperacao) {
-        return;
-      }
+     // =====================================================
+// VERIFICAR SESSÃO AO ABRIR O SISTEMA
+// =====================================================
 
-      mostrarSistema(
-        session.user
-      );
-
-      return;
-    }
-
-    // ===============================================
-    // LOGOUT
-    // ===============================================
-
-    if (event === "SIGNED_OUT") {
-
-      if (modoRecuperacao) {
-        return;
-      }
-
-      mostrarLogin();
-    }
-
-  }
-);
-
-
-    return;
-  }
-
+async function verificarSessaoInicial() {
 
   const {
     data,
     error
-  } =
-    await supabaseClient.auth
-      .getSession();
-
+  } = await supabaseClient.auth.getSession();
 
   if (error) {
 
     console.error(
       "Erro ao verificar sessão:",
       error
+    );
+
+    mostrarLogin();
+
+    return;
+  }
+
+  if (
+    data &&
+    data.session
+  ) {
+
+    if (!modoRecuperacao) {
+
+      mostrarSistema(
+        data.session.user
+      );
+
+    }
+
+  } else {
+
+    mostrarLogin();
+
+  }
+}
+
+verificarSessaoInicial();
     );
 
     mostrarLogin();
