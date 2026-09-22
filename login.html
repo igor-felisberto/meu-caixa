@@ -19,6 +19,7 @@
   <div class="login-container">
 
     <h1>MEU CAIXA</h1>
+
     <p>Acesse sua conta</p>
 
     <form id="formLogin">
@@ -43,7 +44,13 @@
         ENTRAR
       </button>
 
-      <a href="#" id="esqueciSenha">Esqueci minha senha</a>
+      <button
+        type="button"
+        id="esqueciSenha"
+        class="link-esqueci"
+      >
+        Esqueci minha senha
+      </button>
 
     </form>
 
@@ -53,13 +60,12 @@
 
 
   <!-- SUPABASE -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- CONFIGURAÇÃO DO NOSSO SUPABASE -->
   <script src="supabase.js"></script>
 
 
-  <!-- LOGIN -->
   <script>
 
     const formLogin =
@@ -68,6 +74,13 @@
     const mensagem =
       document.getElementById("mensagemLogin");
 
+    const esqueciSenha =
+      document.getElementById("esqueciSenha");
+
+
+    // =========================
+    // LOGIN
+    // =========================
 
     formLogin.addEventListener(
       "submit",
@@ -75,19 +88,20 @@
 
         event.preventDefault();
 
-
         const email =
-          document.getElementById("email").value.trim();
+          document
+            .getElementById("email")
+            .value
+            .trim();
 
         const senha =
           document.getElementById("senha").value;
-
 
         mensagem.textContent =
           "Entrando...";
 
 
-        const { data, error } =
+        const { error } =
           await supabaseClient.auth.signInWithPassword({
 
             email: email,
@@ -118,49 +132,68 @@
 
       }
     );
-    const esqueciSenha =
-  document.getElementById("esqueciSenha");
 
-esqueciSenha.addEventListener("click", async (event) => {
 
-  event.preventDefault();
+    // =========================
+    // ESQUECI MINHA SENHA
+    // =========================
 
-  const email =
-    document.getElementById("email").value.trim();
+    esqueciSenha.addEventListener(
+      "click",
+      async () => {
 
-  if (!email) {
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
 
-    mensagem.textContent =
-      "Digite seu e-mail primeiro.";
 
-    return;
-  }
+        if (!email) {
 
-  mensagem.textContent =
-    "Enviando e-mail de recuperação...";
+          mensagem.textContent =
+            "Digite seu e-mail primeiro.";
 
-  const { error } =
-    await supabaseClient.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo:
-          "https://igor-felisberto.github.io/meu-caixa/reset-password.html"
+          return;
+
+        }
+
+
+        mensagem.textContent =
+          "Enviando e-mail de recuperação...";
+
+
+        const { error } =
+          await supabaseClient.auth.resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                "https://igor-felisberto.github.io/meu-caixa/reset-password.html"
+            }
+          );
+
+
+        if (error) {
+
+          console.error(
+            "Erro na recuperação:",
+            error
+          );
+
+          mensagem.textContent =
+            "Não foi possível enviar o e-mail.";
+
+          return;
+
+        }
+
+
+        mensagem.textContent =
+          "E-mail enviado! Confira sua caixa de entrada.";
+
       }
     );
 
-  if (error) {
-
-    console.error(error);
-
-    mensagem.textContent =
-      "Não foi possível enviar o e-mail.";
-
-    return;
-  }
-
-  mensagem.textContent =
-    "E-mail de recuperação enviado! Confira sua caixa de entrada.";
-});
   </script>
 
 </body>
