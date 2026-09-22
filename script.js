@@ -693,90 +693,10 @@ supabaseClient.auth.onAuthStateChange(
 
       mostrarLogin();
     }
-  
-
-    // ===============================================
-    // RECUPERAÇÃO DE SENHA
-    // ===============================================
-
-    if (
-      event ===
-      "PASSWORD_RECOVERY"
-    ) {
-
-      console.log(
-        "🔐 RECUPERAÇÃO DE SENHA DETECTADA"
-      );
-
-      modoRecuperacao =
-        true;
-
-      mostrarTelaNovaSenha();
-
-      return;
-    }
-
-
-    // ===============================================
-    // LOGIN NORMAL
-    // ===============================================
-
-    if (
-      event ===
-        "SIGNED_IN" &&
-      session &&
-      session.user
-    ) {
-
-      // Não deixar SIGNED_IN
-      // atropelar recuperação.
-      if (modoRecuperacao) {
-        return;
-      }
-
-      mostrarSistema(
-        session.user
-      );
-
-      return;
-    }
-
-
-    // ===============================================
-    // LOGOUT
-    // ===============================================
-
-    if (
-      event ===
-      "SIGNED_OUT"
-    ) {
-
-      if (modoRecuperacao) {
-        return;
-      }
-
-      mostrarLogin();
-
-    }
 
   }
 );
 
-
-// =====================================================
-// VERIFICAR SESSÃO
-// =====================================================
-
-async function verificarSessao() {
-
-  // Se voltou pelo link de recuperação,
-  // NÃO abrir o sistema financeiro.
-  if (detectarRecuperacao()) {
-
-    modoRecuperacao =
-      true;
-
-    mostrarTelaNovaSenha();
 
     return;
   }
