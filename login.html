@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Login | Meu Caixa</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="pagina-login">
+
+  <div class="login-container">
+
+    <h1>MEU CAIXA</h1>
+    <p>Acesse sua conta</p>
+
+    <form id="formLogin">
+
+      <input
+        type="email"
+        id="email"
+        placeholder="E-mail"
+        autocomplete="email"
+        required
+      >
+
+      <input
+        type="password"
+        id="senha"
+        placeholder="Senha"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit">
+        ENTRAR
+      </button>
+
+      <a href="#" id="esqueciSenha">Esqueci minha senha</a>
+
+    </form>
+
+    <p id="mensagemLogin"></p>
+
+  </div>
+
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- CONFIGURAÇÃO DO NOSSO SUPABASE -->
+  <script src="supabase.js"></script>
+
+
+  <!-- LOGIN -->
+  <script>
+
+    const formLogin =
+      document.getElementById("formLogin");
+
+    const mensagem =
+      document.getElementById("mensagemLogin");
+
+
+    formLogin.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const senha =
+          document.getElementById("senha").value;
+
+
+        mensagem.textContent =
+          "Entrando...";
+
+
+        const { data, error } =
+          await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: senha
+
+          });
+
+
+        if (error) {
+
+          console.error(error);
+
+          mensagem.textContent =
+            "E-mail ou senha incorretos.";
+
+          return;
+
+        }
+
+
+        mensagem.textContent =
+          "Login realizado!";
+
+
+        window.location.href =
+          "index.html";
+
+      }
+    );
+    const esqueciSenha =
+  document.getElementById("esqueciSenha");
+
+esqueciSenha.addEventListener("click", async (event) => {
+
+  event.preventDefault();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  if (!email) {
+
+    mensagem.textContent =
+      "Digite seu e-mail primeiro.";
+
+    return;
+  }
+
+  mensagem.textContent =
+    "Enviando e-mail de recuperação...";
+
+  const { error } =
+    await supabaseClient.auth.resetPasswordForEmail(
+      email,
+      {
+        redirectTo:
+          "https://igor-felisberto.github.io/meu-caixa/reset-password.html"
+      }
+    );
+
+  if (error) {
+
+    console.error(error);
+
+    mensagem.textContent =
+      "Não foi possível enviar o e-mail.";
+
+    return;
+  }
+
+  mensagem.textContent =
+    "E-mail de recuperação enviado! Confira sua caixa de entrada.";
+});
+  </script>
+
+</body>
+
+</html>
