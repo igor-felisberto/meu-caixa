@@ -190,7 +190,107 @@
       </form>
 
       <div id="erroLogin"></div>
+<!-- RECUPERAÇÃO DE SENHA -->
+<div id="recuperacaoSenha" style="display:none; margin-top:20px;">
 
+  <h3>🔐 Recuperar senha</h3>
+
+  <p style="color:#6b7280;">
+    Digite seu e-mail e enviaremos um link para criar uma nova senha.
+  </p>
+
+  <input
+    type="email"
+    id="emailRecuperacao"
+    placeholder="Seu e-mail"
+    autocomplete="email"
+  >
+
+  <button
+    type="button"
+    id="btnEnviarRecuperacao"
+    style="
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      background:#7c3aed;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+    "
+  >
+    Enviar link
+  </button>
+
+  <button
+    type="button"
+    id="btnVoltarLogin"
+    style="
+      margin-top:12px;
+      border:none;
+      background:none;
+      color:#6b7280;
+      cursor:pointer;
+    "
+  >
+    ← Voltar para login
+  </button>
+
+  <div
+    id="mensagemRecuperacao"
+    style="margin-top:15px;"
+  ></div>
+
+</div>
+
+
+<!-- NOVA SENHA -->
+<div id="telaNovaSenha" style="display:none; margin-top:20px;">
+
+  <h3>🔑 Criar nova senha</h3>
+
+  <p style="color:#6b7280;">
+    Digite sua nova senha abaixo.
+  </p>
+
+  <input
+    type="password"
+    id="novaSenha"
+    placeholder="Nova senha"
+    autocomplete="new-password"
+  >
+
+  <input
+    type="password"
+    id="confirmarNovaSenha"
+    placeholder="Confirme a nova senha"
+    autocomplete="new-password"
+  >
+
+  <button
+    type="button"
+    id="btnSalvarNovaSenha"
+    style="
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      background:#16a34a;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+    "
+  >
+    Salvar nova senha
+  </button>
+
+  <div
+    id="mensagemNovaSenha"
+    style="margin-top:15px;"
+  ></div>
+
+</div>
     </div>
 
   </div>
