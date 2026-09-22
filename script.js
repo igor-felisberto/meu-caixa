@@ -694,7 +694,7 @@ supabaseClient.auth.onAuthStateChange(
       mostrarLogin();
     }
   }
-);
+
     // ===============================================
     // RECUPERAÇÃO DE SENHA
     // ===============================================
