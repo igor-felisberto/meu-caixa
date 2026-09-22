@@ -19,23 +19,34 @@ const supabaseClient =
 // ELEMENTOS DO LOGIN
 // =====================================================
 
-const telaLogin = document.getElementById("telaLogin");
-const sistema = document.getElementById("sistema");
+const telaLogin =
+  document.getElementById("telaLogin");
 
-const formLogin = document.getElementById("formLogin");
+const sistema =
+  document.getElementById("sistema");
 
-const emailLogin = document.getElementById("emailLogin");
-const senhaLogin = document.getElementById("senhaLogin");
+const formLogin =
+  document.getElementById("formLogin");
 
-const btnLogin = document.getElementById("btnLogin");
+const emailLogin =
+  document.getElementById("emailLogin");
 
-const erroLogin = document.getElementById("erroLogin");
+const senhaLogin =
+  document.getElementById("senhaLogin");
+
+const btnLogin =
+  document.getElementById("btnLogin");
+
+const erroLogin =
+  document.getElementById("erroLogin");
 
 const usuarioLogado =
   document.getElementById("usuarioLogado");
 
 const btnSair =
   document.getElementById("btnSair");
+
+
 // =====================================================
 // RECUPERAÇÃO DE SENHA
 // =====================================================
@@ -74,7 +85,10 @@ const mensagemNovaSenha =
   document.getElementById("mensagemNovaSenha");
 
 
-// URL para onde o Supabase vai devolver o usuário
+// =====================================================
+// URL DE RECUPERAÇÃO
+// =====================================================
+
 const URL_RECUPERACAO =
   window.location.origin +
   window.location.pathname;
@@ -84,35 +98,47 @@ const URL_RECUPERACAO =
 // ABRIR RECUPERAÇÃO
 // =====================================================
 
-btnEsqueciSenha.addEventListener("click", function () {
+btnEsqueciSenha.addEventListener(
+  "click",
+  function () {
 
-  formLogin.style.display = "none";
+    formLogin.style.display = "none";
 
-  erroLogin.style.display = "none";
+    erroLogin.style.display = "none";
 
-  recuperacaoSenha.style.display = "block";
+    recuperacaoSenha.style.display = "block";
 
-  mensagemRecuperacao.textContent = "";
+    telaNovaSenha.style.display = "none";
 
-  emailRecuperacao.value =
-    emailLogin.value.trim();
+    mensagemRecuperacao.textContent = "";
 
-});
+    emailRecuperacao.value =
+      emailLogin.value.trim();
+
+  }
+);
 
 
 // =====================================================
 // VOLTAR PARA LOGIN
 // =====================================================
 
-btnVoltarLogin.addEventListener("click", function () {
+btnVoltarLogin.addEventListener(
+  "click",
+  function () {
 
-  recuperacaoSenha.style.display = "none";
+    recuperacaoSenha.style.display = "none";
 
-  formLogin.style.display = "block";
+    telaNovaSenha.style.display = "none";
 
-  mensagemRecuperacao.textContent = "";
+    formLogin.style.display = "block";
 
-});
+    mensagemRecuperacao.textContent = "";
+
+    mensagemNovaSenha.textContent = "";
+
+  }
+);
 
 
 // =====================================================
@@ -167,7 +193,8 @@ btnEnviarRecuperacao.addEventListener(
       mensagemRecuperacao.style.color =
         "#b91c1c";
 
-      btnEnviarRecuperacao.disabled = false;
+      btnEnviarRecuperacao.disabled =
+        false;
 
       btnEnviarRecuperacao.textContent =
         "Enviar link";
@@ -183,7 +210,8 @@ btnEnviarRecuperacao.addEventListener(
       "#15803d";
 
 
-    btnEnviarRecuperacao.disabled = false;
+    btnEnviarRecuperacao.disabled =
+      false;
 
     btnEnviarRecuperacao.textContent =
       "Enviar link";
@@ -198,23 +226,32 @@ btnEnviarRecuperacao.addEventListener(
 
 function mostrarTelaNovaSenha() {
 
-  telaLogin.style.display = "flex";
+  telaLogin.style.display =
+    "flex";
 
-  sistema.style.display = "none";
+  sistema.style.display =
+    "none";
 
-  formLogin.style.display = "none";
+  formLogin.style.display =
+    "none";
 
-  recuperacaoSenha.style.display = "none";
+  recuperacaoSenha.style.display =
+    "none";
 
-  erroLogin.style.display = "none";
+  erroLogin.style.display =
+    "none";
 
-  telaNovaSenha.style.display = "block";
+  telaNovaSenha.style.display =
+    "block";
 
-  novaSenha.value = "";
+  novaSenha.value =
+    "";
 
-  confirmarNovaSenha.value = "";
+  confirmarNovaSenha.value =
+    "";
 
-  mensagemNovaSenha.textContent = "";
+  mensagemNovaSenha.textContent =
+    "";
 
 }
 
@@ -243,6 +280,7 @@ btnSalvarNovaSenha.addEventListener(
         "#b91c1c";
 
       return;
+
     }
 
 
@@ -255,10 +293,12 @@ btnSalvarNovaSenha.addEventListener(
         "#b91c1c";
 
       return;
+
     }
 
 
-    btnSalvarNovaSenha.disabled = true;
+    btnSalvarNovaSenha.disabled =
+      true;
 
     btnSalvarNovaSenha.textContent =
       "Salvando...";
@@ -284,12 +324,14 @@ btnSalvarNovaSenha.addEventListener(
       mensagemNovaSenha.style.color =
         "#b91c1c";
 
-      btnSalvarNovaSenha.disabled = false;
+      btnSalvarNovaSenha.disabled =
+        false;
 
       btnSalvarNovaSenha.textContent =
         "Salvar nova senha";
 
       return;
+
     }
 
 
@@ -314,7 +356,8 @@ btnSalvarNovaSenha.addEventListener(
         emailLogin.value =
           emailRecuperacao.value.trim();
 
-        senhaLogin.value = "";
+        senhaLogin.value =
+          "";
 
         mensagemNovaSenha.textContent =
           "";
@@ -326,15 +369,20 @@ btnSalvarNovaSenha.addEventListener(
   }
 );
 
+
 // =====================================================
 // MOSTRAR ERRO DE LOGIN
 // =====================================================
 
-function mostrarErroLogin(mensagem) {
+function mostrarErroLogin(
+  mensagem
+) {
 
-  erroLogin.textContent = mensagem;
+  erroLogin.textContent =
+    mensagem;
 
-  erroLogin.style.display = "block";
+  erroLogin.style.display =
+    "block";
 
 }
 
@@ -345,9 +393,11 @@ function mostrarErroLogin(mensagem) {
 
 function esconderErroLogin() {
 
-  erroLogin.textContent = "";
+  erroLogin.textContent =
+    "";
 
-  erroLogin.style.display = "none";
+  erroLogin.style.display =
+    "none";
 
 }
 
@@ -356,18 +406,27 @@ function esconderErroLogin() {
 // MOSTRAR SISTEMA
 // =====================================================
 
-function mostrarSistema(usuario) {
+function mostrarSistema(
+  usuario
+) {
 
-  telaLogin.style.display = "none";
+  telaLogin.style.display =
+    "none";
 
-  sistema.style.display = "block";
+  sistema.style.display =
+    "block";
 
-  if (usuario && usuario.email) {
+
+  if (
+    usuario &&
+    usuario.email
+  ) {
 
     usuarioLogado.textContent =
       "👤 " + usuario.email;
 
   }
+
 
   atualizarTela();
 
@@ -380,9 +439,11 @@ function mostrarSistema(usuario) {
 
 function mostrarLogin() {
 
-  telaLogin.style.display = "flex";
+  telaLogin.style.display =
+    "flex";
 
-  sistema.style.display = "none";
+  sistema.style.display =
+    "none";
 
 }
 
@@ -399,13 +460,18 @@ formLogin.addEventListener(
 
     esconderErroLogin();
 
+
     const email =
       emailLogin.value.trim();
 
     const senha =
       senhaLogin.value;
 
-    if (!email || !senha) {
+
+    if (
+      !email ||
+      !senha
+    ) {
 
       mostrarErroLogin(
         "Digite seu e-mail e sua senha."
@@ -415,17 +481,25 @@ formLogin.addEventListener(
 
     }
 
-    btnLogin.disabled = true;
+
+    btnLogin.disabled =
+      true;
 
     btnLogin.textContent =
       "Entrando...";
 
 
     const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: senha
-      });
+      await supabaseClient.auth
+        .signInWithPassword({
+
+          email:
+            email,
+
+          password:
+            senha
+
+        });
 
 
     if (error) {
@@ -439,7 +513,8 @@ formLogin.addEventListener(
         "E-mail ou senha incorretos."
       );
 
-      btnLogin.disabled = false;
+      btnLogin.disabled =
+        false;
 
       btnLogin.textContent =
         "Entrar";
@@ -449,7 +524,9 @@ formLogin.addEventListener(
     }
 
 
-    if (data.user) {
+    if (
+      data.user
+    ) {
 
       mostrarSistema(
         data.user
@@ -458,7 +535,8 @@ formLogin.addEventListener(
     }
 
 
-    btnLogin.disabled = false;
+    btnLogin.disabled =
+      false;
 
     btnLogin.textContent =
       "Entrar";
@@ -480,17 +558,23 @@ btnSair.addEventListener(
         "Deseja sair do MEU CAIXA?"
       );
 
+
     if (!confirmar) {
       return;
     }
 
+
     await supabaseClient.auth.signOut();
+
 
     mostrarLogin();
 
-    emailLogin.value = "";
 
-    senhaLogin.value = "";
+    emailLogin.value =
+      "";
+
+    senhaLogin.value =
+      "";
 
   }
 );
@@ -505,7 +589,8 @@ async function verificarSessao() {
   const {
     data,
     error
-  } = await supabaseClient.auth.getSession();
+  } =
+    await supabaseClient.auth.getSession();
 
 
   if (error) {
@@ -522,7 +607,9 @@ async function verificarSessao() {
   }
 
 
-  if (data.session) {
+  if (
+    data.session
+  ) {
 
     mostrarSistema(
       data.session.user
@@ -538,9 +625,72 @@ async function verificarSessao() {
 
 
 // =====================================================
-// OBSERVAR LOGIN / LOGOUT
+// OBSERVAR EVENTOS DO SUPABASE
 // =====================================================
 
+supabaseClient.auth.onAuthStateChange(
+  function (
+    event,
+    session
+  ) {
+
+    console.log(
+      "Evento Supabase:",
+      event
+    );
+
+
+    // ===============================================
+    // RECUPERAÇÃO DE SENHA
+    // ===============================================
+
+    if (
+      event ===
+      "PASSWORD_RECOVERY"
+    ) {
+
+      mostrarTelaNovaSenha();
+
+      return;
+
+    }
+
+
+    // ===============================================
+    // LOGIN NORMAL
+    // ===============================================
+
+    if (
+      event ===
+        "SIGNED_IN" &&
+      session &&
+      session.user
+    ) {
+
+      mostrarSistema(
+        session.user
+      );
+
+      return;
+
+    }
+
+
+    // ===============================================
+    // LOGOUT
+    // ===============================================
+
+    if (
+      event ===
+      "SIGNED_OUT"
+    ) {
+
+      mostrarLogin();
+
+    }
+
+  }
+);
 
 
 // =====================================================
@@ -548,19 +698,29 @@ async function verificarSessao() {
 // =====================================================
 
 const descricao =
-  document.getElementById("descricao");
+  document.getElementById(
+    "descricao"
+  );
 
 const valor =
-  document.getElementById("valor");
+  document.getElementById(
+    "valor"
+  );
 
 const tipo =
-  document.getElementById("tipo");
+  document.getElementById(
+    "tipo"
+  );
 
 const categoria =
-  document.getElementById("categoria");
+  document.getElementById(
+    "categoria"
+  );
 
 const adicionar =
-  document.getElementById("adicionar");
+  document.getElementById(
+    "adicionar"
+  );
 
 const lista =
   document.getElementById(
@@ -568,11 +728,14 @@ const lista =
   );
 
 
-let periodoAtual = "todos";
+let periodoAtual =
+  "todos";
 
-let graficoFinanceiro = null;
+let graficoFinanceiro =
+  null;
 
-let indiceEditando = null;
+let indiceEditando =
+  null;
 
 
 let movimentacoes =
@@ -609,13 +772,20 @@ function atualizarTela() {
     return;
   }
 
-  lista.innerHTML = "";
 
-  let totalEntradas = 0;
+  lista.innerHTML =
+    "";
 
-  let totalGastos = 0;
 
-  const hoje = new Date();
+  let totalEntradas =
+    0;
+
+  let totalGastos =
+    0;
+
+
+  const hoje =
+    new Date();
 
 
   const movimentacoesFiltradas =
@@ -623,7 +793,8 @@ function atualizarTela() {
       movimento => {
 
         if (
-          periodoAtual === "todos"
+          periodoAtual ===
+          "todos"
         ) {
 
           return true;
@@ -632,7 +803,9 @@ function atualizarTela() {
 
 
         const partes =
-          movimento.data.split("/");
+          movimento.data.split(
+            "/"
+          );
 
 
         const dataMovimento =
@@ -644,7 +817,8 @@ function atualizarTela() {
 
 
         if (
-          periodoAtual === "hoje"
+          periodoAtual ===
+          "hoje"
         ) {
 
           return (
@@ -656,16 +830,21 @@ function atualizarTela() {
 
 
         if (
-          periodoAtual === "semana"
+          periodoAtual ===
+          "semana"
         ) {
 
           const inicioSemana =
-            new Date(hoje);
+            new Date(
+              hoje
+            );
+
 
           inicioSemana.setDate(
             hoje.getDate() -
             hoje.getDay()
           );
+
 
           inicioSemana.setHours(
             0,
@@ -677,15 +856,17 @@ function atualizarTela() {
 
           return (
             dataMovimento >=
-            inicioSemana &&
-            dataMovimento <= hoje
+              inicioSemana &&
+            dataMovimento <=
+              hoje
           );
 
         }
 
 
         if (
-          periodoAtual === "mes"
+          periodoAtual ===
+          "mes"
         ) {
 
           return (
@@ -705,7 +886,8 @@ function atualizarTela() {
 
 
   if (
-    movimentacoesFiltradas.length === 0
+    movimentacoesFiltradas.length ===
+    0
   ) {
 
     lista.innerHTML =
@@ -723,14 +905,17 @@ function atualizarTela() {
       "listaCategorias"
     );
 
-  const totaisCategorias = {};
+
+  const totaisCategorias =
+    {};
 
 
   movimentacoesFiltradas.forEach(
     movimento => {
 
       if (
-        movimento.tipo === "gasto"
+        movimento.tipo ===
+        "gasto"
       ) {
 
         const cat =
@@ -742,13 +927,16 @@ function atualizarTela() {
           !totaisCategorias[cat]
         ) {
 
-          totaisCategorias[cat] = 0;
+          totaisCategorias[cat] =
+            0;
 
         }
 
 
         totaisCategorias[cat] +=
-          Number(movimento.valor);
+          Number(
+            movimento.valor
+          );
 
       }
 
@@ -756,7 +944,8 @@ function atualizarTela() {
   );
 
 
-  listaCategorias.innerHTML = "";
+  listaCategorias.innerHTML =
+    "";
 
 
   const categorias =
@@ -766,7 +955,8 @@ function atualizarTela() {
 
 
   if (
-    categorias.length === 0
+    categorias.length ===
+    0
   ) {
 
     listaCategorias.innerHTML =
@@ -804,16 +994,21 @@ function atualizarTela() {
 
 
       if (
-        movimento.tipo === "entrada"
+        movimento.tipo ===
+        "entrada"
       ) {
 
         totalEntradas +=
-          Number(movimento.valor);
+          Number(
+            movimento.valor
+          );
 
       } else {
 
         totalGastos +=
-          Number(movimento.valor);
+          Number(
+            movimento.valor
+          );
 
       }
 
@@ -841,13 +1036,16 @@ function atualizarTela() {
 
         <span>
           ${
-            movimento.tipo === "entrada"
+            movimento.tipo ===
+            "entrada"
               ? "+"
               : "-"
           }
 
           R$
-          ${Number(movimento.valor).toFixed(2)}
+          ${Number(
+            movimento.valor
+          ).toFixed(2)}
         </span>
 
         <button
@@ -948,7 +1146,8 @@ adicionar.addEventListener(
 
 
     if (
-      textoDescricao === "" ||
+      textoDescricao ===
+        "" ||
       numeroValor <= 0
     ) {
 
@@ -966,7 +1165,8 @@ adicionar.addEventListener(
     // ================================================
 
     if (
-      indiceEditando !== null
+      indiceEditando !==
+      null
     ) {
 
       movimentacoes[
@@ -992,7 +1192,8 @@ adicionar.addEventListener(
       };
 
 
-      indiceEditando = null;
+      indiceEditando =
+        null;
 
 
       salvar();
@@ -1000,17 +1201,17 @@ adicionar.addEventListener(
       atualizarTela();
 
 
-      descricao.value = "";
+      descricao.value =
+        "";
 
-      valor.value = "";
+      valor.value =
+        "";
 
       tipo.value =
         "entrada";
 
-
       categoria.value =
         "alimentacao";
-
 
       adicionar.textContent =
         "Adicionar movimentação";
@@ -1053,9 +1254,11 @@ adicionar.addEventListener(
     atualizarTela();
 
 
-    descricao.value = "";
+    descricao.value =
+      "";
 
-    valor.value = "";
+    valor.value =
+      "";
 
     tipo.value =
       "entrada";
@@ -1093,7 +1296,6 @@ document.addEventListener(
   "click",
   function (event) {
 
-
     if (
       event.target.classList.contains(
         "btn-excluir"
@@ -1126,7 +1328,9 @@ document.addEventListener(
 
 
       const movimento =
-        movimentacoes[index];
+        movimentacoes[
+          index
+        ];
 
 
       indiceEditando =
@@ -1220,7 +1424,8 @@ graficoFinanceiro =
     ctxGrafico,
     {
 
-      type: "bar",
+      type:
+        "bar",
 
       data: {
 
@@ -1231,7 +1436,8 @@ graficoFinanceiro =
 
         datasets: [{
 
-          label: "R$",
+          label:
+            "R$",
 
           data: [
             0,
@@ -1248,9 +1454,11 @@ graficoFinanceiro =
             "#ef4444"
           ],
 
-          borderWidth: 2,
+          borderWidth:
+            2,
 
-          borderRadius: 10
+          borderRadius:
+            10
 
         }]
 
@@ -1259,25 +1467,32 @@ graficoFinanceiro =
 
       options: {
 
-        responsive: true,
+        responsive:
+          true,
 
-        maintainAspectRatio: false,
+        maintainAspectRatio:
+          false,
 
         plugins: {
 
           datalabels: {
 
-            color: "#ffffff",
+            color:
+              "#ffffff",
 
-            anchor: "end",
+            anchor:
+              "end",
 
-            align: "top",
+            align:
+              "top",
 
             font: {
 
-              weight: "bold",
+              weight:
+                "bold",
 
-              size: 14
+              size:
+                14
 
             },
 
@@ -1287,8 +1502,11 @@ graficoFinanceiro =
                 return value.toLocaleString(
                   "pt-BR",
                   {
-                    style: "currency",
-                    currency: "BRL"
+                    style:
+                      "currency",
+
+                    currency:
+                      "BRL"
                   }
                 );
 
@@ -1326,10 +1544,8 @@ btnFecharMes.addEventListener(
     const agora =
       new Date();
 
-
     const mes =
       agora.getMonth();
-
 
     const ano =
       agora.getFullYear();
@@ -1346,25 +1562,33 @@ btnFecharMes.addEventListener(
 
 
           const mesMovimento =
-            Number(partes[1]) - 1;
+            Number(
+              partes[1]
+            ) - 1;
 
 
           const anoMovimento =
-            Number(partes[2]);
+            Number(
+              partes[2]
+            );
 
 
           return (
-            mesMovimento === mes &&
-            anoMovimento === ano
+            mesMovimento ===
+              mes &&
+            anoMovimento ===
+              ano
           );
 
         }
       );
 
 
-    let entradas = 0;
+    let entradas =
+      0;
 
-    let gastos = 0;
+    let gastos =
+      0;
 
 
     movimentacoesDoMes.forEach(
@@ -1381,11 +1605,13 @@ btnFecharMes.addEventListener(
           "entrada"
         ) {
 
-          entradas += valor;
+          entradas +=
+            valor;
 
         } else {
 
-          gastos += valor;
+          gastos +=
+            valor;
 
         }
 
@@ -1394,7 +1620,8 @@ btnFecharMes.addEventListener(
 
 
     const saldo =
-      entradas - gastos;
+      entradas -
+      gastos;
 
 
     const modalFechamento =
@@ -1425,8 +1652,11 @@ btnFecharMes.addEventListener(
       entradas.toLocaleString(
         "pt-BR",
         {
-          style: "currency",
-          currency: "BRL"
+          style:
+            "currency",
+
+          currency:
+            "BRL"
         }
       );
 
@@ -1435,8 +1665,11 @@ btnFecharMes.addEventListener(
       gastos.toLocaleString(
         "pt-BR",
         {
-          style: "currency",
-          currency: "BRL"
+          style:
+            "currency",
+
+          currency:
+            "BRL"
         }
       );
 
@@ -1445,8 +1678,11 @@ btnFecharMes.addEventListener(
       saldo.toLocaleString(
         "pt-BR",
         {
-          style: "currency",
-          currency: "BRL"
+          style:
+            "currency",
+
+          currency:
+            "BRL"
         }
       );
 
@@ -1514,7 +1750,8 @@ btnHistorico.addEventListener(
 
 
     if (
-      historico.length === 0
+      historico.length ===
+      0
     ) {
 
       listaHistorico.innerHTML =
@@ -1528,27 +1765,16 @@ btnHistorico.addEventListener(
     const nomesMeses = [
 
       "Janeiro",
-
       "Fevereiro",
-
       "Março",
-
       "Abril",
-
       "Maio",
-
       "Junho",
-
       "Julho",
-
       "Agosto",
-
       "Setembro",
-
       "Outubro",
-
       "Novembro",
-
       "Dezembro"
 
     ];
@@ -1700,25 +1926,33 @@ confirmarFechamento.addEventListener(
 
 
           const mesMovimento =
-            Number(partes[1]) - 1;
+            Number(
+              partes[1]
+            ) - 1;
 
 
           const anoMovimento =
-            Number(partes[2]);
+            Number(
+              partes[2]
+            );
 
 
           return (
-            mesMovimento === mes &&
-            anoMovimento === ano
+            mesMovimento ===
+              mes &&
+            anoMovimento ===
+              ano
           );
 
         }
       );
 
 
-    let entradas = 0;
+    let entradas =
+      0;
 
-    let gastos = 0;
+    let gastos =
+      0;
 
 
     movimentacoesDoMes.forEach(
@@ -1735,11 +1969,13 @@ confirmarFechamento.addEventListener(
           "entrada"
         ) {
 
-          entradas += valor;
+          entradas +=
+            valor;
 
         } else {
 
-          gastos += valor;
+          gastos +=
+            valor;
 
         }
 
@@ -1748,7 +1984,8 @@ confirmarFechamento.addEventListener(
 
 
     const saldo =
-      entradas - gastos;
+      entradas -
+      gastos;
 
 
     const historico =
@@ -1764,8 +2001,10 @@ confirmarFechamento.addEventListener(
         item => {
 
           return (
-            item.mes === mes + 1 &&
-            item.ano === ano
+            item.mes ===
+              mes + 1 &&
+            item.ano ===
+              ano
           );
 
         }
@@ -1877,7 +2116,8 @@ function mostrarToast(
 // =====================================================
 
 if (
-  "serviceWorker" in navigator
+  "serviceWorker" in
+  navigator
 ) {
 
   window.addEventListener(
