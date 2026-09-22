@@ -541,31 +541,6 @@ async function verificarSessao() {
 // OBSERVAR LOGIN / LOGOUT
 // =====================================================
 
-supabaseClient.auth.onAuthStateChange(
-  function (event, session) {
-
-    if (
-      event === "SIGNED_IN" &&
-      session
-    ) {
-
-      mostrarSistema(
-        session.user
-      );
-
-    }
-
-
-    if (
-      event === "SIGNED_OUT"
-    ) {
-
-      mostrarLogin();
-
-    }
-
-  }
-);
 
 
 // =====================================================
