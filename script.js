@@ -632,23 +632,70 @@ btnSair.addEventListener(
   }
 );
 
-
 // =====================================================
 // OBSERVAR EVENTOS DO SUPABASE
 // =====================================================
 
 supabaseClient.auth.onAuthStateChange(
-  function (
-    event,
-    session
-  ) {
+  function (event, session) {
 
     console.log(
       "EVENTO SUPABASE:",
       event
     );
 
+    // ===============================================
+    // RECUPERAÇÃO DE SENHA
+    // ===============================================
 
+    if (event === "PASSWORD_RECOVERY") {
+
+      console.log(
+        "🔐 RECUPERAÇÃO DE SENHA DETECTADA"
+      );
+
+      modoRecuperacao = true;
+
+      mostrarTelaNovaSenha();
+
+      return;
+    }
+
+    // ===============================================
+    // LOGIN NORMAL
+    // ===============================================
+
+    if (
+      event === "SIGNED_IN" &&
+      session &&
+      session.user
+    ) {
+
+      if (modoRecuperacao) {
+        return;
+      }
+
+      mostrarSistema(
+        session.user
+      );
+
+      return;
+    }
+
+    // ===============================================
+    // LOGOUT
+    // ===============================================
+
+    if (event === "SIGNED_OUT") {
+
+      if (modoRecuperacao) {
+        return;
+      }
+
+      mostrarLogin();
+    }
+  }
+);
     // ===============================================
     // RECUPERAÇÃO DE SENHA
     // ===============================================
