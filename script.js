@@ -1,3 +1,42 @@
+// ========================================
+// CONTROLE DE LOGIN - SUPABASE
+// ========================================
+
+const SUPABASE_URL = "https://ktlzfjelnzijwjwuktxm.supabase.co";
+const SUPABASE_KEY = "sb_publishable_n7fT_UhG9wQiqoFfSYb6xQ_w5zT4tGF";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function verificarLogin() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (!data.session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const telaLogin = document.getElementById("telaLogin");
+  const sistema = document.getElementById("sistema");
+
+  if (telaLogin) {
+    telaLogin.style.display = "none";
+  }
+
+  if (sistema) {
+    sistema.style.display = "block";
+  }
+
+  const usuarioLogado = document.getElementById("usuarioLogado");
+
+  if (usuarioLogado) {
+    usuarioLogado.textContent = data.session.user.email;
+  }
+}
+
+verificarLogin();
 const descricao = document.getElementById("descricao");
 const valor = document.getElementById("valor");
 const tipo = document.getElementById("tipo");
