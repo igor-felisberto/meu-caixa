@@ -641,7 +641,7 @@ async function verificarSessao() {
   if (session) {
     mostrarSistema(session.user);
   } else {
-    mostrarLogin();
+   window.location.href = "login.html";
   }
 }
 
