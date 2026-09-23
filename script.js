@@ -508,8 +508,8 @@ if ("serviceWorker" in navigator) {
 // AUTENTICAÇÃO SUPABASE
 // =====================================================
 
-const SUPABASE_URL = "COLE_AQUI_SUA_URL_DO_SUPABASE";
-const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_ANON_KEY";
+const SUPABASE_URL = "https://ktlzfjelnzijwjwuktxm.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_n7fT_UhG9wQiqoFfSYb6xQ_w5zT4tGF"
 
 const supabase = window.supabase.createClient(
   SUPABASE_URL,
