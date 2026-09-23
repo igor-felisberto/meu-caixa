@@ -640,9 +640,9 @@ async function verificarSessao() {
 
   if (session) {
     mostrarSistema(session.user);
-  } else {
-   window.location.href = "login.html";
-  }
+ } else {
+    mostrarLogin();
+}
 }
 
 
