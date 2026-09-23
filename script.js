@@ -503,3 +503,382 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+
+// =====================================================
+// AUTENTICAÇÃO SUPABASE
+// =====================================================
+
+const SUPABASE_URL = "COLE_AQUI_SUA_URL_DO_SUPABASE";
+const SUPABASE_ANON_KEY = "COLE_AQUI_SUA_ANON_KEY";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+// ELEMENTOS DO LOGIN
+const telaLogin = document.getElementById("telaLogin");
+const sistema = document.getElementById("sistema");
+
+const formLogin = document.getElementById("formLogin");
+const emailLogin = document.getElementById("emailLogin");
+const senhaLogin = document.getElementById("senhaLogin");
+
+const btnEsqueciSenha =
+  document.getElementById("btnEsqueciSenha");
+
+const recuperacaoSenha =
+  document.getElementById("recuperacaoSenha");
+
+const emailRecuperacao =
+  document.getElementById("emailRecuperacao");
+
+const btnEnviarRecuperacao =
+  document.getElementById("btnEnviarRecuperacao");
+
+const btnVoltarLogin =
+  document.getElementById("btnVoltarLogin");
+
+const telaNovaSenha =
+  document.getElementById("telaNovaSenha");
+
+const novaSenha =
+  document.getElementById("novaSenha");
+
+const confirmarNovaSenha =
+  document.getElementById("confirmarNovaSenha");
+
+const btnSalvarNovaSenha =
+  document.getElementById("btnSalvarNovaSenha");
+
+const erroLogin =
+  document.getElementById("erroLogin");
+
+const mensagemRecuperacao =
+  document.getElementById("mensagemRecuperacao");
+
+const mensagemNovaSenha =
+  document.getElementById("mensagemNovaSenha");
+
+const usuarioLogado =
+  document.getElementById("usuarioLogado");
+
+const btnSair =
+  document.getElementById("btnSair");
+
+
+// =====================================================
+// MOSTRAR / ESCONDER SISTEMA
+// =====================================================
+
+function mostrarSistema(user) {
+
+  telaLogin.style.display = "none";
+  sistema.style.display = "block";
+
+  if (usuarioLogado && user) {
+    usuarioLogado.textContent =
+      user.email || "";
+  }
+}
+
+function mostrarLogin() {
+
+  telaLogin.style.display = "flex";
+  sistema.style.display = "none";
+}
+
+
+// =====================================================
+// VERIFICAR SESSÃO
+// =====================================================
+
+async function verificarSessao() {
+
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    mostrarSistema(session.user);
+  } else {
+    mostrarLogin();
+  }
+}
+
+
+// =====================================================
+// LOGIN
+// =====================================================
+
+formLogin.addEventListener("submit", async function (event) {
+
+  event.preventDefault();
+
+  erroLogin.style.display = "none";
+  erroLogin.textContent = "";
+
+  const email = emailLogin.value.trim();
+  const senha = senhaLogin.value;
+
+  const btnLogin =
+    document.getElementById("btnLogin");
+
+  btnLogin.disabled = true;
+  btnLogin.textContent = "Entrando...";
+
+  const { data, error } =
+    await supabase.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+
+  btnLogin.disabled = false;
+  btnLogin.textContent = "Entrar";
+
+  if (error) {
+
+    erroLogin.textContent =
+      "E-mail ou senha incorretos.";
+
+    erroLogin.style.display = "block";
+
+    return;
+  }
+
+  mostrarSistema(data.user);
+});
+
+
+// =====================================================
+// ESQUECI MINHA SENHA
+// =====================================================
+
+btnEsqueciSenha.addEventListener("click", function () {
+
+  document.getElementById("formLogin").style.display =
+    "none";
+
+  btnEsqueciSenha.style.display =
+    "none";
+
+  recuperacaoSenha.style.display =
+    "block";
+
+  mensagemRecuperacao.textContent =
+    "";
+
+  emailRecuperacao.value =
+    emailLogin.value.trim();
+});
+
+
+// =====================================================
+// VOLTAR PARA LOGIN
+// =====================================================
+
+btnVoltarLogin.addEventListener("click", function () {
+
+  recuperacaoSenha.style.display =
+    "none";
+
+  telaNovaSenha.style.display =
+    "none";
+
+  document.getElementById("formLogin").style.display =
+    "block";
+
+  btnEsqueciSenha.style.display =
+    "inline-block";
+
+  mensagemRecuperacao.textContent =
+    "";
+});
+
+
+// =====================================================
+// ENVIAR RECUPERAÇÃO
+// =====================================================
+
+btnEnviarRecuperacao.addEventListener(
+  "click",
+  async function () {
+
+    const email =
+      emailRecuperacao.value.trim();
+
+    if (!email) {
+
+      mensagemRecuperacao.textContent =
+        "Digite seu e-mail.";
+
+      return;
+    }
+
+    btnEnviarRecuperacao.disabled = true;
+    btnEnviarRecuperacao.textContent =
+      "Enviando...";
+
+    const { error } =
+      await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+            window.location.origin +
+            window.location.pathname
+        }
+      );
+
+    btnEnviarRecuperacao.disabled = false;
+    btnEnviarRecuperacao.textContent =
+      "Enviar link";
+
+    if (error) {
+
+      mensagemRecuperacao.textContent =
+        "Erro ao enviar o e-mail: " +
+        error.message;
+
+      return;
+    }
+
+    mensagemRecuperacao.textContent =
+      "✅ Link enviado! Verifique seu e-mail.";
+  }
+);
+
+
+// =====================================================
+// DETECTAR RECUPERAÇÃO DE SENHA
+// =====================================================
+
+supabase.auth.onAuthStateChange(
+  function (event, session) {
+
+    if (event === "PASSWORD_RECOVERY") {
+
+      telaLogin.style.display =
+        "flex";
+
+      sistema.style.display =
+        "none";
+
+      document.getElementById("formLogin").style.display =
+        "none";
+
+      btnEsqueciSenha.style.display =
+        "none";
+
+      recuperacaoSenha.style.display =
+        "none";
+
+      telaNovaSenha.style.display =
+        "block";
+    }
+
+    if (event === "SIGNED_IN" && session) {
+      mostrarSistema(session.user);
+    }
+
+    if (event === "SIGNED_OUT") {
+      mostrarLogin();
+    }
+  }
+);
+
+
+// =====================================================
+// SALVAR NOVA SENHA
+// =====================================================
+
+btnSalvarNovaSenha.addEventListener(
+  "click",
+  async function () {
+
+    const senha =
+      novaSenha.value;
+
+    const confirmar =
+      confirmarNovaSenha.value;
+
+    mensagemNovaSenha.textContent =
+      "";
+
+    if (!senha || !confirmar) {
+
+      mensagemNovaSenha.textContent =
+        "Preencha os dois campos.";
+
+      return;
+    }
+
+    if (senha.length < 6) {
+
+      mensagemNovaSenha.textContent =
+        "A senha deve ter pelo menos 6 caracteres.";
+
+      return;
+    }
+
+    if (senha !== confirmar) {
+
+      mensagemNovaSenha.textContent =
+        "As senhas não são iguais.";
+
+      return;
+    }
+
+    btnSalvarNovaSenha.disabled = true;
+    btnSalvarNovaSenha.textContent =
+      "Salvando...";
+
+    const { error } =
+      await supabase.auth.updateUser({
+        password: senha
+      });
+
+    btnSalvarNovaSenha.disabled = false;
+    btnSalvarNovaSenha.textContent =
+      "Salvar nova senha";
+
+    if (error) {
+
+      mensagemNovaSenha.textContent =
+        "Erro ao alterar a senha: " +
+        error.message;
+
+      return;
+    }
+
+    mensagemNovaSenha.textContent =
+      "✅ Senha alterada com sucesso!";
+
+    setTimeout(() => {
+
+      mostrarSistema();
+
+    }, 1500);
+  }
+);
+
+
+// =====================================================
+// SAIR
+// =====================================================
+
+btnSair.addEventListener(
+  "click",
+  async function () {
+
+    await supabase.auth.signOut();
+
+    mostrarLogin();
+  }
+);
+
+
+// =====================================================
+// INICIAR AUTENTICAÇÃO
+// =====================================================
+
+verificarSessao();
